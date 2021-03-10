@@ -18,14 +18,22 @@ namespace bj {
     // Concepts / traits for output.
 
     template<typename T>
-    concept binaryizable = requires(const T t, obinaryizer & b) { t.binaryize(b); };
+    concept binaryizable_internal = requires(const T t, obinaryizer & b) { t.binaryize(b); };
+
+    template<typename T>
+    concept binaryizable_external = requires(const T t, obinaryizer & b) { binaryize(b, t); };
 
     template<typename T>
     struct is_binaryizable {
         static constexpr bool value{ false };
     };
 
-    template<binaryizable T>
+    template<binaryizable_internal T>
+    struct is_binaryizable<T> {
+        static constexpr bool value{ true };
+    };
+
+    template<binaryizable_external T>
     struct is_binaryizable<T> {
         static constexpr bool value{ true };
     };
@@ -36,14 +44,22 @@ namespace bj {
     // Concepts / traits for input.
 
     template<typename T>
-    concept debinaryizable = requires(T t, ibinaryizer & b) { t.debinaryize(b); };
+    concept debinaryizable_internal = requires(T t, ibinaryizer & b) { t.debinaryize(b); };
+
+    template<typename T>
+    concept debinaryizable_external = requires(T t, ibinaryizer & b) { debinaryize(b, t); };
 
     template<typename T>
     struct is_debinaryizable {
         static constexpr bool value{ false };
     };
 
-    template<debinaryizable T>
+    template<debinaryizable_internal T>
+    struct is_debinaryizable<T> {
+        static constexpr bool value{ true };
+    };
+
+    template<debinaryizable_external T>
     struct is_debinaryizable<T> {
         static constexpr bool value{ true };
     };
@@ -109,9 +125,14 @@ namespace bj {
             (put(std::forward<Args>(args)), ...);
         }
 
-        template<binaryizable T>
+        template<binaryizable_internal T>
         void put(const T &t) {
             t.binaryize(*this);
+        }
+
+        template<binaryizable_external T>
+        void put(const T &t) {
+            binaryize(*this, t);
         }
 
     };
@@ -184,9 +205,14 @@ namespace bj {
             (get(std::forward<Args>(args)), ...);
         }
 
-        template<debinaryizable T>
+        template<debinaryizable_internal T>
         void get(T &t) {
             t.debinaryize(*this);
+        }
+
+        template<debinaryizable_external T>
+        void get(T &t) {
+            debinaryize(*this, t);
         }
 
     };
