@@ -86,6 +86,8 @@ namespace bj {
 
     public:
 
+        virtual ~obinaryizer() = default;
+
         template<typename T>
         requires std::is_arithmetic_v<T>
         void put(const T data) {
@@ -157,6 +159,8 @@ namespace bj {
 
     public:
 
+        virtual ~ibinaryizer() = default;
+
         template<typename T>
         requires std::is_arithmetic_v<T>
         void get(T &data) {
@@ -180,7 +184,7 @@ namespace bj {
 
         template<std::forward_iterator It>
         void get(It first, It last) {
-            std::for_each(first, last, [this](auto &x) { get(x); });
+            std::for_each(first, last, [this](auto &x) { this->get(x); });
         }
 
         template<typename T>

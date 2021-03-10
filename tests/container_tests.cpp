@@ -3,6 +3,7 @@
 // for details.
 
 #include <vector>
+#include <sstream>
 
 #include <catch2/catch.hpp>
 #include <bj/iostream_binaryizer.hpp>
