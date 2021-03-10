@@ -8,7 +8,7 @@
 
 namespace bj {
 
-    template<class IOStream>
+    template<typename IOStream>
     class iostream_binaryizer final : public iobinaryizer {
 
         IOStream m_stream;
@@ -16,11 +16,11 @@ namespace bj {
     protected:
 
         void putraw(const std::byte *const data, const std::size_t size) override {
-            m_stream.write(reinterpret_cast<const char *>(data), size);
+            m_stream.write(reinterpret_cast<const char *>(data), static_cast<std::streamsize>(size));
         }
 
         void getraw(std::byte *const data, const std::size_t size) override {
-            m_stream.read(reinterpret_cast<char *>(data), size);
+            m_stream.read(reinterpret_cast<char *>(data), static_cast<std::streamsize>(size));
         }
 
     public:
