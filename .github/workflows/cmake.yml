@@ -32,8 +32,8 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBINARYIZER_BUILD_TESTS=ON
       env:
-        CC: /usr/bin/clang-10
-        CXX: /usr/bin/clang++-10
+        CC: /usr/bin/clang-11
+        CXX: /usr/bin/clang++-11
 
     - name: Build
       working-directory: ${{github.workspace}}/build
