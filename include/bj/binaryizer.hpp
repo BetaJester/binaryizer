@@ -85,23 +85,23 @@ namespace bj {
 
         template<std::forward_iterator It>
         void put(It first, It last) {
-            std::for_each(first, last, put);
+            std::for_each(first, last, [this](auto &x) { this->put(x); });
         }
 
         template<typename T>
         void put(const std::vector<T> &data) {
-            put<std::uint32_t>(data.size());
+            put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
             if constexpr (is_binaryizable_v<T>) {
                 put(data.begin(), data.end());
             } else {
-                putraw(data.data(), data.size() * sizeof(T));
+                putraw(reinterpret_cast<const std::byte*>(data.data()), data.size() * sizeof(T));
             }
         }
 
         template<typename T, std::size_t N>
         void put(const std::array<T, N> &data) {
-            put<std::uint32_t>(data.size());
-            putraw(data.data(), data.size() * sizeof(T));
+            put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+            putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
         }
 
         template<typename ...Args>
@@ -138,7 +138,7 @@ namespace bj {
 
         template<typename T>
         requires std::is_arithmetic_v<T>
-            void get(T &data) {
+        void get(T &data) {
             gettem(data);
         }
 
@@ -159,7 +159,7 @@ namespace bj {
 
         template<std::forward_iterator It>
         void get(It first, It last) {
-            std::for_each(first, last, get);
+            std::for_each(first, last, [this](auto &x) { get(x); });
         }
 
         template<typename T>
@@ -169,14 +169,14 @@ namespace bj {
             if constexpr (is_debinaryizable_v<T>) {
                 get(data.begin(), data.end());
             } else {
-                getraw(data.data(), size * sizeof(T));
+                getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
             }
         }
 
         template<typename T, std::size_t N>
         void get(std::array<T,N> &data) {
             (void)get<std::uint32_t>();
-            getraw(data.data(), data.size() * sizeof(T));
+            getraw(reinterpret_cast<std::byte *>(data.data()), data.size() * sizeof(T));
         }
 
         template<typename ...Args>
