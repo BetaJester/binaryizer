@@ -18,14 +18,22 @@ namespace bj {
     // Concepts / traits for output.
 
     template<typename T>
-    concept binaryizable = requires(const T t, obinaryizer & b) { t.binaryize(b); };
+    concept binaryizable_internal = requires(const T t, obinaryizer & b) { t.binaryize(b); };
+
+    template<typename T>
+    concept binaryizable_external = requires(const T t, obinaryizer & b) { binaryize(b, t); };
 
     template<typename T>
     struct is_binaryizable {
         static constexpr bool value{ false };
     };
 
-    template<binaryizable T>
+    template<binaryizable_internal T>
+    struct is_binaryizable<T> {
+        static constexpr bool value{ true };
+    };
+
+    template<binaryizable_external T>
     struct is_binaryizable<T> {
         static constexpr bool value{ true };
     };
@@ -36,14 +44,22 @@ namespace bj {
     // Concepts / traits for input.
 
     template<typename T>
-    concept debinaryizable = requires(T t, ibinaryizer & b) { t.debinaryize(b); };
+    concept debinaryizable_internal = requires(T t, ibinaryizer & b) { t.debinaryize(b); };
+
+    template<typename T>
+    concept debinaryizable_external = requires(T t, ibinaryizer & b) { debinaryize(b, t); };
 
     template<typename T>
     struct is_debinaryizable {
         static constexpr bool value{ false };
     };
 
-    template<debinaryizable T>
+    template<debinaryizable_internal T>
+    struct is_debinaryizable<T> {
+        static constexpr bool value{ true };
+    };
+
+    template<debinaryizable_external T>
     struct is_debinaryizable<T> {
         static constexpr bool value{ true };
     };
@@ -85,23 +101,23 @@ namespace bj {
 
         template<std::forward_iterator It>
         void put(It first, It last) {
-            std::for_each(first, last, put);
+            std::for_each(first, last, [this](auto &x) { this->put(x); });
         }
 
         template<typename T>
         void put(const std::vector<T> &data) {
-            put<std::uint32_t>(data.size());
+            put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
             if constexpr (is_binaryizable_v<T>) {
                 put(data.begin(), data.end());
             } else {
-                putraw(data.data(), data.size() * sizeof(T));
+                putraw(reinterpret_cast<const std::byte*>(data.data()), data.size() * sizeof(T));
             }
         }
 
         template<typename T, std::size_t N>
         void put(const std::array<T, N> &data) {
-            put<std::uint32_t>(data.size());
-            putraw(data.data(), data.size() * sizeof(T));
+            put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+            putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
         }
 
         template<typename ...Args>
@@ -109,9 +125,14 @@ namespace bj {
             (put(std::forward<Args>(args)), ...);
         }
 
-        template<binaryizable T>
+        template<binaryizable_internal T>
         void put(const T &t) {
             t.binaryize(*this);
+        }
+
+        template<binaryizable_external T>
+        void put(const T &t) {
+            binaryize(*this, t);
         }
 
     };
@@ -138,7 +159,7 @@ namespace bj {
 
         template<typename T>
         requires std::is_arithmetic_v<T>
-            void get(T &data) {
+        void get(T &data) {
             gettem(data);
         }
 
@@ -159,7 +180,7 @@ namespace bj {
 
         template<std::forward_iterator It>
         void get(It first, It last) {
-            std::for_each(first, last, get);
+            std::for_each(first, last, [this](auto &x) { get(x); });
         }
 
         template<typename T>
@@ -169,14 +190,14 @@ namespace bj {
             if constexpr (is_debinaryizable_v<T>) {
                 get(data.begin(), data.end());
             } else {
-                getraw(data.data(), size * sizeof(T));
+                getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
             }
         }
 
         template<typename T, std::size_t N>
         void get(std::array<T,N> &data) {
             (void)get<std::uint32_t>();
-            getraw(data.data(), data.size() * sizeof(T));
+            getraw(reinterpret_cast<std::byte *>(data.data()), data.size() * sizeof(T));
         }
 
         template<typename ...Args>
@@ -184,9 +205,14 @@ namespace bj {
             (get(std::forward<Args>(args)), ...);
         }
 
-        template<debinaryizable T>
+        template<debinaryizable_internal T>
         void get(T &t) {
             t.debinaryize(*this);
+        }
+
+        template<debinaryizable_external T>
+        void get(T &t) {
+            debinaryize(*this, t);
         }
 
     };

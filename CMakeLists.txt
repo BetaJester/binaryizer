@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.18)
 
 project(binaryizer)
 
+option(BINARYIZER_BUILD_TESTS "Build tests for binaryizer" OFF)
+
 include(FetchContent)
 FetchContent_Declare(
 	pwropt
@@ -15,7 +17,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(pwropt)
 
 add_library(binaryizer INTERFACE)
+add_library(bj::binaryizer ALIAS binaryizer)
 target_include_directories(binaryizer INTERFACE "include")
-target_sources(binaryizer INTERFACE "include/binaryizer/binaryizer.hpp" "include/binaryizer/fstream_binaryizer.hpp")
+target_sources(binaryizer INTERFACE "include/bj/binaryizer.hpp" "include/bj/iostream_binaryizer.hpp")
 pwropt_target_compile_options(binaryizer INTERFACE pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer INTERFACE)
+
+if (${BINARYIZER_BUILD_TESTS})
+	enable_testing()
+	add_subdirectory("tests")
+endif()
