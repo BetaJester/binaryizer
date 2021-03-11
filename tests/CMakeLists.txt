@@ -24,7 +24,7 @@ include(Catch)
 include(CTest)
 FetchContent_MakeAvailable(pwropt Catch2)
 
-add_executable(binaryizer_tests "main.cpp" "stream_tests.cpp" "container_tests.cpp" "county.hpp" "exttester.hpp" "external_tests.cpp")
+add_executable(binaryizer_tests "main.cpp" "stream_tests.cpp" "container_tests.cpp" "county.hpp" "exttester.hpp" "external_tests.cpp" "readme_tests.cpp")
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
