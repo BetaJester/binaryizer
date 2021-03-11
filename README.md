@@ -73,7 +73,7 @@ struct thing {
 
     template<typename Archive>
     void debinaryize(Archive &archive) {
-        const int version = archive.get<int>();
+        const int version = archive.template get<int>();
         switch (version) {
         case 1: 
             archive(a, b, c);
@@ -83,7 +83,7 @@ struct thing {
             archive(a, b, c, d);
             break;
         default:
-            throw std::runtime_error("Unknow version for 'thing' in binary");
+            throw std::runtime_error("Unknown version for 'thing' in binary");
         }
     }
 };
