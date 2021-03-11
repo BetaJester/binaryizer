@@ -16,7 +16,7 @@ TEST_CASE("endian conversion works", "[endian,iostream,arithmetic]") {
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
-    const std::uint16_t value = 0xAABB;
+    const std::uint16_t value{ 0xAABB };
 
     obin(value);
 

@@ -64,7 +64,7 @@ namespace bj {
         }
         if constexpr (std::is_integral_v<T>) {
             if constexpr (sizeof(T) == 1) return n;
-            if constexpr (sizeof(T) == 2) return (n << 8) | (n >> 8);
+            if constexpr (sizeof(T) == 2) return static_cast<T>((n << 8) | (n >> 8)); // Cast to quiet clang.
             if constexpr (sizeof(T) == 4) return ((n >> 24) & 0xFF) | ((n << 8) & 0xFF0000) | ((n >> 8) & 0xFF00) | ((n << 24) & 0xFF000000);
             if constexpr (sizeof(T) == 8) {
                 T x = n;
