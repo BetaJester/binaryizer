@@ -19,7 +19,15 @@ FetchContent_MakeAvailable(pwropt)
 add_library(binaryizer INTERFACE)
 add_library(bj::binaryizer ALIAS binaryizer)
 target_include_directories(binaryizer INTERFACE "include")
-target_sources(binaryizer INTERFACE "include/bj/binaryizer.hpp" "include/bj/iostream_binaryizer.hpp")
+target_sources(binaryizer INTERFACE 
+	"include/bj/binaryizer/binaryizer.hpp"
+	"include/bj/binaryizer/endian.hpp"
+	"include/bj/binaryizer/ibinaryizer.hpp"
+	"include/bj/binaryizer/iostream_binaryizer.hpp"
+	"include/bj/binaryizer/obinaryizer.hpp"
+	"include/bj/binaryizer/stl_binaryizer.hpp"
+	"include/bj/binaryizer/traits_n_concepts.hpp"
+	)
 pwropt_target_compile_options(binaryizer INTERFACE pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer INTERFACE)
 
