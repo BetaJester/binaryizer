@@ -6,8 +6,8 @@
 #include <sstream>
 
 #include <catch2/catch.hpp>
-#include <bj/stl_binaryizer.hpp>
-#include <bj/iostream_binaryizer.hpp>
+#include <bj/binaryizer/stl_binaryizer.hpp>
+#include <bj/binaryizer/iostream_binaryizer.hpp>
 #include "county.hpp"
 
 template<class A, std::size_t AN, class B, std::size_t BN>

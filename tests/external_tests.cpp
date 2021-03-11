@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include <catch2/catch.hpp>
-#include <bj/iostream_binaryizer.hpp>
+#include <bj/binaryizer/iostream_binaryizer.hpp>
 #include "exttester.hpp"
 
 TEST_CASE("external binaryize functions operate", "[external]") {

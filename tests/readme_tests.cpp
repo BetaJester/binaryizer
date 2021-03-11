@@ -6,7 +6,7 @@
 
 #include <sstream>
 #include <catch2/catch.hpp>
-#include <bj/iostream_binaryizer.hpp>
+#include <bj/binaryizer/iostream_binaryizer.hpp>
 
 namespace readme_internal {
     struct thing {
