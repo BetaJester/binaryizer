@@ -113,3 +113,150 @@ TEST_CASE("std::vector de/binaryized with binaryizable type county", "[container
 
 }
 
+TEST_CASE("std::deque de/binaryized with arithmetic types", "[container,deque]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::deque<int> intvec{ 1, 3, 5, 7, 9 };
+    std::deque<int> emptyvec;
+
+    REQUIRE(intvec != emptyvec);
+
+    obin(intvec);
+    ibin(emptyvec);
+
+    REQUIRE(intvec == emptyvec);
+
+}
+
+TEST_CASE("std::deque de/binaryized with binaryizable type county", "[container,deque,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::deque<county> countyvec{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::deque<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec[0].binarized == 1);
+    REQUIRE(countyvec[0].debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec[0].binarized == 0);
+    REQUIRE(emptyvec[0].debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+TEST_CASE("std::forward_list de/binaryized with binaryizable type county", "[container,forward_list,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::forward_list<county> countyvec{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::forward_list<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.front().binarized == 1);
+    REQUIRE(countyvec.front().debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.front().binarized == 0);
+    REQUIRE(emptyvec.front().debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+TEST_CASE("std::list de/binaryized with binaryizable type county", "[container,list,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::list<county> countyvec{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::list<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.front().binarized == 1);
+    REQUIRE(countyvec.front().debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.front().binarized == 0);
+    REQUIRE(emptyvec.front().debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+TEST_CASE("std::string de/binaryized", "[container,string]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::string str = "Get ready 'cause this ain't funny, My name's Mike D and I'm about to get money";
+    std::string empty;
+
+    REQUIRE(str != empty);
+
+    obin(str);
+    ibin(empty);
+
+    REQUIRE(str == empty);
+
+}
+
+TEST_CASE("std::set de/binaryized with binaryizable type county", "[container,set,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::set<county> countyvec{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::set<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->binarized == 1);
+    REQUIRE(countyvec.begin()->debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->binarized == 0);
+    REQUIRE(emptyvec.begin()->debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}

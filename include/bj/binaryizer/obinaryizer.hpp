@@ -21,7 +21,7 @@ namespace bj {
         }
 
         template<typename T, std::size_t N>
-        void putarr(const T(&data)[N]) {
+        void puttem(const T(&data)[N]) {
             putraw(reinterpret_cast<const std::byte *>(data), sizeof(T) * N);
         }
 
@@ -43,10 +43,10 @@ namespace bj {
 
         template<typename T, std::size_t N>
         void put(const T(&data)[N]) {
-            putarr(data);
+            puttem(data);
         }
 
-        template<binaryizable T, std::size_t N>
+        template<norawable T, std::size_t N>
         void put(const T(&data)[N]) {
             for (const auto &x : data) {
                 put(x);

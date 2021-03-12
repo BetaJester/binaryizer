@@ -53,7 +53,7 @@ namespace bj {
             gettem(data);
         }
 
-        template<binaryizable T, std::size_t N>
+        template<norawable T, std::size_t N>
         void get(T(&data)[N]) {
             for (auto &x : data) {
                 get(x);

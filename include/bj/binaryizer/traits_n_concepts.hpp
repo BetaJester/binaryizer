@@ -76,4 +76,8 @@ namespace bj {
     template<typename T>
     concept unknown = std::is_arithmetic_v<T> == false && is_binaryizable_v<T> == false;
 
+    // Easier overloads
+    template<typename T>
+    concept norawable = arithmetic<T> or binaryizable<T> or debinaryizable<T>;
+
 } // namespace bj.
