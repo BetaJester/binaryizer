@@ -23,7 +23,12 @@ namespace bj {
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
 
-    template<norawable T, std::size_t N>
+    template<arithmetic_noraw_out T, std::size_t N>
+    inline void binaryize(obinaryizer &out, const std::array<T, N> &data) {
+        out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
+    }
+
+    template<noraw_out T, std::size_t N>
     inline void binaryize(obinaryizer &out, const std::array<T, N> &data) {
         out.put(data.begin(), data.end());
     }
@@ -33,7 +38,12 @@ namespace bj {
         in.getraw(reinterpret_cast<std::byte *>(data.data()), N * sizeof(T));
     }
 
-    template<norawable T, std::size_t N>
+    template<arithmetic_noraw_in T, std::size_t N>
+    inline void debinaryize(ibinaryizer &in, std::array<T, N> &data) {
+        in.getraw(reinterpret_cast<std::byte *>(data.data()), N * sizeof(T));
+    }
+
+    template<noraw_in T, std::size_t N>
     inline void debinaryize(ibinaryizer &in, std::array<T, N> &data) {
         in.get(data.begin(), data.end());
     }
@@ -46,7 +56,13 @@ namespace bj {
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
 
-    template<norawable T, typename Alloc>
+    template<arithmetic_noraw_out T, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::vector<T, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
+    }
+
+    template<noraw_out T, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::vector<T, Alloc> &data) {
         out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
         out.put(data.begin(), data.end());
@@ -59,11 +75,27 @@ namespace bj {
         in.getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
     }
 
-    template<norawable T, typename Alloc>
+    template<arithmetic_noraw_in T, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::vector<T, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        data.resize(size);
+        in.getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
+    }
+
+    template<noraw_in T, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::vector<T, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         data.resize(size);
         in.get(data.begin(), data.end());
+    }
+
+    template<debinaryizable_emplace T, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::vector<T, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        data.reserve(size);
+        for (std::uint32_t i{}; i < size; ++i) {
+            data.emplace_back(in);
+        }
     }
 
     // std::deque.

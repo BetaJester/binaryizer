@@ -6,9 +6,14 @@
 #include <sstream>
 
 #include <catch2/catch.hpp>
+
+// Endian flips for an extra twist.
+#define BJ_FORCE_ENDIAN_OUT_BIG
+#define BJ_FORCE_ENDIAN_IN_BIG
 #include <bj/binaryizer/stl_binaryizer.hpp>
 #include <bj/binaryizer/iostream_binaryizer.hpp>
 #include "county.hpp"
+#include "emplacey.hpp"
 
 template<class A, std::size_t AN, class B, std::size_t BN>
 [[nodiscard]] bool compare_arrays(A(&a)[AN], B(&b)[BN]) {
@@ -18,6 +23,8 @@ template<class A, std::size_t AN, class B, std::size_t BN>
     }
     return true;
 }
+
+// C array.
 
 TEST_CASE("C array de/binaryized with arithmetic types", "[container,carray]") {
 
@@ -66,6 +73,57 @@ TEST_CASE("C array de/binaryized with binaryizable type county", "[container,car
 
 }
 
+// std::array.
+
+TEST_CASE("std::array de/binaryized with arithmetic types", "[container,array]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::array<int,5> intvec{ 1, 3, 5, 7, 9 };
+    std::array<int,5> emptyvec;
+
+    REQUIRE(intvec != emptyvec);
+
+    obin(intvec);
+    ibin(emptyvec);
+
+    REQUIRE(intvec == emptyvec);
+
+}
+
+TEST_CASE("std::array de/binaryized with binaryizable type county", "[container,array,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::array<county,4> countyvec{ county{1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::array<county,4> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec[0].binarized == 1);
+    REQUIRE(countyvec[0].debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec[0].binarized == 0);
+    REQUIRE(emptyvec[0].debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::vector.
+
 TEST_CASE("std::vector de/binaryized with arithmetic types", "[container,vector]") {
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
@@ -98,7 +156,7 @@ TEST_CASE("std::vector de/binaryized with binaryizable type county", "[container
     std::vector<county> emptyvec;
 
     REQUIRE(countyvec != emptyvec);
-    
+
     obin(countyvec);
 
     REQUIRE(countyvec[0].binarized == 1);
@@ -112,6 +170,35 @@ TEST_CASE("std::vector de/binaryized with binaryizable type county", "[container
     REQUIRE(countyvec == emptyvec);
 
 }
+
+TEST_CASE("std::vector de/binaryized with emplaceable type county", "[container,vector,emplacey]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::vector<emplacey> countyvec{ {1}, { 4 }, { 7 }, { 10 } };
+    std::vector<emplacey> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec[0].binarized == 1);
+    REQUIRE(countyvec[0].debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec[0].binarized == 0);
+    REQUIRE(emptyvec[0].debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::deque.
 
 TEST_CASE("std::deque de/binaryized with arithmetic types", "[container,deque]") {
 
@@ -160,6 +247,8 @@ TEST_CASE("std::deque de/binaryized with binaryizable type county", "[container,
 
 }
 
+// std::forward_list.
+
 TEST_CASE("std::forward_list de/binaryized with binaryizable type county", "[container,forward_list,county]") {
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
@@ -186,6 +275,8 @@ TEST_CASE("std::forward_list de/binaryized with binaryizable type county", "[con
     REQUIRE(countyvec == emptyvec);
 
 }
+
+// std::list.
 
 TEST_CASE("std::list de/binaryized with binaryizable type county", "[container,list,county]") {
 
@@ -214,6 +305,8 @@ TEST_CASE("std::list de/binaryized with binaryizable type county", "[container,l
 
 }
 
+// std::string.
+
 TEST_CASE("std::string de/binaryized", "[container,string]") {
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
@@ -233,6 +326,8 @@ TEST_CASE("std::string de/binaryized", "[container,string]") {
     REQUIRE(str == empty);
 
 }
+
+// std::set.
 
 TEST_CASE("std::set de/binaryized with binaryizable type county", "[container,set,county]") {
 

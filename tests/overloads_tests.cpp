@@ -2,8 +2,14 @@
 // See README.md, LICENSE, or go to https://github.com/BetaJester/binaryizer
 // for details.
 
+#include <array>
 #include <catch2/catch.hpp>
+
+// Test fails unless on a little endian system.
+#define BJ_FORCE_ENDIAN_IN_BIG
 #include <bj/binaryizer/traits_n_concepts.hpp>
+#include <bj/binaryizer/ibinaryizer.hpp>
+#include <bj/binaryizer/endian.hpp>
 
 std::uint32_t tester{};
 
@@ -34,6 +40,21 @@ void arithfunction(T &) {
 template<bj::binaryizable T>
 void arithfunction(T &) {
     tester |= 0x000000FF;
+}
+
+template<typename T, std::size_t N>
+inline void arraytest(const std::array<T, N> &) {
+    tester |= 0xFF000000;
+}
+
+template<bj::arithmetic_noraw_in T, std::size_t N>
+inline void arraytest(const std::array<T, N> &) {
+    tester |= 0x00FF0000;
+}
+
+template<bj::noraw_in T, std::size_t N>
+inline void arraytest(const std::array<T, N> &) {
+    tester |= 0x0000FF00;
 }
 
 TEST_CASE("overload for binarizable are called correctly", "[overloads,concepts]") {
@@ -83,3 +104,43 @@ TEST_CASE("overload for just arithmetic are called correctly", "[overloads,conce
     REQUIRE(tester == 0x0000FF00);
 
 }
+
+TEST_CASE("overload for array int endian are called correctly", "[overloads,concepts,array,endian]") {
+
+    tester = 0;
+    REQUIRE(tester == 0x00000000);
+
+    std::array<int, 5> arr;
+
+    arraytest(arr);
+
+    REQUIRE(tester == 0x00FF0000);
+
+}
+
+TEST_CASE("overload for array binable rawable are called correctly", "[overloads,concepts,array,endian]") {
+
+    tester = 0;
+    REQUIRE(tester == 0x00000000);
+
+    std::array<binable, 5> arr;
+
+    arraytest(arr);
+
+    REQUIRE(tester == 0x0000FF00);
+
+}
+
+TEST_CASE("overload for array unbinable rawable are called correctly", "[overloads,concepts,array,endian]") {
+
+    tester = 0;
+    REQUIRE(tester == 0x00000000);
+
+    std::array<unbinable, 5> arr;
+
+    arraytest(arr);
+
+    REQUIRE(tester == 0xFF000000);
+
+}
+

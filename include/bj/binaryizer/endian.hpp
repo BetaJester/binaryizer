@@ -9,25 +9,9 @@
 #include <cstdint>
 #include <cstring>
 
+#include "endian_settings.hpp"
+
 namespace bj {
-
-    // Arithmetic type endian fixes.
-
-#if defined(BJ_FORCE_ENDIAN_OUT_LITLE)
-    constexpr std::endian forced_endian_out = std::endian::little;
-#elif defined (BJ_FORCE_ENDIAN_OUT_BIG)
-    constexpr std::endian forced_endian_out = std::endian::big;
-#else
-    constexpr std::endian forced_endian_out = std::endian::native;
-#endif // BJ_FORCE_LITTLE_ENDIAN
-
-#if defined(BJ_FORCE_ENDIAN_IN_LITLE)
-    constexpr std::endian forced_endian_in = std::endian::little;
-#elif defined (BJ_FORCE_ENDIAN_IN_BIG)
-    constexpr std::endian forced_endian_in = std::endian::big;
-#else
-    constexpr std::endian forced_endian_in = std::endian::native;
-#endif // BJ_FORCE_LITTLE_ENDIAN
 
     namespace derp {
         // courtesy of cppreference until vendors catch up.
@@ -49,7 +33,8 @@ namespace bj {
         }
     } // namespace derp.
 
-    template<arithmetic T>
+    template<typename T>
+    requires std::is_arithmetic_v<T> // Avoid our concepts header.
     [[nodiscard]] constexpr T swap_endian(const T n) noexcept {
         if constexpr (std::is_same_v<T, float>) {
             const auto nf = derp::bit_cast<std::uint32_t>(n);
@@ -65,7 +50,10 @@ namespace bj {
         if constexpr (std::is_integral_v<T>) {
             if constexpr (sizeof(T) == 1) return n;
             if constexpr (sizeof(T) == 2) return static_cast<T>((n << 8) | (n >> 8)); // Cast to quiet clang.
-            if constexpr (sizeof(T) == 4) return ((n >> 24) & 0xFF) | ((n << 8) & 0xFF0000) | ((n >> 8) & 0xFF00) | ((n << 24) & 0xFF000000);
+            if constexpr (sizeof(T) == 4) {
+                const auto nf = derp::bit_cast<std::uint32_t>(n);
+                return derp::bit_cast<T>(((nf >> 24) & 0xFF) | ((nf << 8) & 0xFF0000) | ((nf >> 8) & 0xFF00) | ((nf << 24) & 0xFF000000));
+            }
             if constexpr (sizeof(T) == 8) {
                 T x = n;
                 x = (x & 0x00000000FFFFFFFF) << 32 | (x & 0xFFFFFFFF00000000) >> 32;
@@ -76,7 +64,8 @@ namespace bj {
         }
     }
 
-    template<std::endian Endian, arithmetic T>
+    template<std::endian Endian, typename T>
+    requires std::is_arithmetic_v<T> // Avoid our concepts header.
     [[nodiscard]] constexpr T endian_convert(const T n) noexcept {
         if constexpr (std::endian::native != Endian) {
             return swap_endian(n);

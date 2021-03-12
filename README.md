@@ -1,5 +1,5 @@
-# binaryizer
-Simple header only C++ serialization library
+# bj::binaryizer
+Simple header only C++ serialization library with an annoying to type name.
 
 [![CMake](https://github.com/BetaJester/binaryizer/actions/workflows/cmake.yml/badge.svg)](https://github.com/BetaJester/binaryizer/actions/workflows/cmake.yml)
 
@@ -15,7 +15,7 @@ Simple header only C++ serialization library
 
 ## Usage
 
-Very simple, your class or struct needs one or two functions/methods, `binaryize` and `debinaryize`. 
+Very simple - your class or struct needs one or two functions/methods, `binaryize` and `debinaryize`. 
 
 **As class methods**
 
@@ -56,6 +56,26 @@ void debinaryize(Archive &archive, thing &e) {
 Note the use of templates with no indication that this library is being used, or any interest in what `Archive` is, simply that it is callable with a variable number of arguments. This allows classes to be created without even including the library headers, zero dependencies.
 
 If you are using standalone functions, it is best to place them in the same namespace as your class ([ADL](https://en.cppreference.com/w/cpp/language/adl) will find it), in the global namespace, or in the `bj` namespace if you don't want to pollute the global namespace.
+
+You can of course use `bj::ibinaryizable` and `bj::obinaryizable` as arguments instead of templates, which is needed when using inheritance and is best when using another type of debinaryizing: constructors.
+
+**With constructors**
+
+```cpp
+struct thing {
+    int a, b, c;
+    
+    thing(bj::ibinaryizer &in) {
+        in(a, b, c);
+    }
+    
+	void debinaryize(bj::obinaryizer &out) {
+    	out(a, b, c);
+	}
+};
+```
+
+This actually gives (will anyway) an advantage if you are using STL containers, as they can use emplace methods instead of default constructing and then debinaryizing an object. If you binaryize your object in the correct way and it contains objects that can be debinaryized, you can pass the object to them during construction too. Advanced Example coming.
 
 ## Versioning your binaries
 
@@ -98,12 +118,12 @@ You may note the use of `archive.get<int>();`{:.language-cpp} in the above. Ther
 ## TODO
 
 - [ ] STL header & tests (finish containers)
-- [ ] Endian optional & tests
+- [x] Endian optional & tests, like every endian flip possibility.
+- [ ] Endian ignored for contiguous data if not applicable to optimise
 - [ ] Unique pointers & tests
 - [ ] Inheritance docs and tests
 - [ ] Document all methods
-- [ ] Expose all methods?
-- [ ] Constructor / make_binarizable<T>()
-- [ ] Emplace calls
+- [x] Expose all methods?
+- [x] Constructor
 - [ ] std::range
 - [ ] Damn std::vector<bool>?
