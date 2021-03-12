@@ -13,6 +13,8 @@
 #include <set>
 #include <utility> // std::pair.
 #include <map>
+#include <unordered_set>
+#include <unordered_map>
 
 #include "binaryizer.hpp"
 
@@ -246,6 +248,173 @@ namespace bj {
 
     template<typename Key, debinaryizable_emplace T, typename Compare, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::map<Key, T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            Key k;
+            in(k);
+            data.emplace(k, in);
+        }
+    }
+
+    // std::multiset.
+
+    template<typename Key, typename Compare, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::multiset<Key, Compare, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.put(data.begin(), data.end());
+    }
+
+    template<typename Key, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::multiset<Key, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            // Not a huge fan of this.
+            Key t;
+            in(t);
+            data.insert(t);
+        }
+    }
+
+    template<debinaryizable_emplace Key, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::multiset<Key, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            data.emplace(in);
+        }
+    }
+
+    // std::multimap.
+
+    template<typename Key, typename T, typename Compare, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::multimap<Key, T, Compare, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.put(data.begin(), data.end());
+    }
+
+    template<typename Key, typename T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::multimap<Key, T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            std::pair<Key, T> p;
+            in(p);
+            data.insert(p);
+        }
+    }
+
+    template<typename Key, debinaryizable_emplace T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::multimap<Key, T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            Key k;
+            in(k);
+            data.emplace(k, in);
+        }
+    }
+
+    // Unordered...
+
+    // std::unordered_set.
+
+    template<typename T, typename Compare, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::unordered_set<T, Compare, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.put(data.begin(), data.end());
+    }
+
+    template<typename T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_set<T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            // Not a huge fan of this.
+            T t;
+            in(t);
+            data.insert(t);
+        }
+    }
+
+    template<debinaryizable_emplace T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_set<T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            data.emplace(in);
+        }
+    }
+
+    // std::unordered_map.
+
+    template<typename Key, typename T, typename Compare, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::unordered_map<Key, T, Compare, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.put(data.begin(), data.end());
+    }
+
+    template<typename Key, typename T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_map<Key, T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            std::pair<Key, T> p;
+            in(p);
+            data.insert(p);
+        }
+    }
+
+    template<typename Key, debinaryizable_emplace T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_map<Key, T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            Key k;
+            in(k);
+            data.emplace(k, in);
+        }
+    }
+
+    // std::unordered_multiset.
+
+    template<typename Key, typename Compare, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::unordered_multiset<Key, Compare, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.put(data.begin(), data.end());
+    }
+
+    template<typename Key, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_multiset<Key, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            // Not a huge fan of this.
+            Key t;
+            in(t);
+            data.insert(t);
+        }
+    }
+
+    template<debinaryizable_emplace Key, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_multiset<Key, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            data.emplace(in);
+        }
+    }
+
+    // std::unordered_multimap.
+
+    template<typename Key, typename T, typename Compare, typename Alloc>
+    inline void binaryize(obinaryizer &out, const std::unordered_multimap<Key, T, Compare, Alloc> &data) {
+        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        out.put(data.begin(), data.end());
+    }
+
+    template<typename Key, typename T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_multimap<Key, T, Compare, Alloc> &data) {
+        const std::uint32_t size = in.get<std::uint32_t>();
+        for (std::uint32_t i{}; i < size; ++i) {
+            std::pair<Key, T> p;
+            in(p);
+            data.insert(p);
+        }
+    }
+
+    template<typename Key, debinaryizable_emplace T, typename Compare, typename Alloc>
+    inline void debinaryize(ibinaryizer &in, std::unordered_multimap<Key, T, Compare, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         for (std::uint32_t i{}; i < size; ++i) {
             Key k;

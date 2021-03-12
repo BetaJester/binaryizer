@@ -38,3 +38,17 @@ struct county {
     }
 
 };
+
+namespace std {
+    template <>
+    struct hash<county> {
+        [[nodiscard]] size_t operator()(const county &val) const noexcept {
+            // Yeah, this is how boost does it.
+            size_t seed{};
+            seed ^= val.a + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            seed ^= val.b + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            seed ^= val.c + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            return seed;
+        }
+    };
+} // namespace std.

@@ -412,7 +412,7 @@ TEST_CASE("std::map de/binaryized with binaryizable type county", "[container,ma
 
 }
 
-TEST_CASE("std::map de/binaryized with emplaceable type emplacey", "[container,deque,emplacey]") {
+TEST_CASE("std::map de/binaryized with emplaceable type emplacey", "[container,map,emplacey]") {
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
     REQUIRE(iobin.good());
@@ -422,6 +422,209 @@ TEST_CASE("std::map de/binaryized with emplaceable type emplacey", "[container,d
 
     std::map<int, emplacey> countyvec{ {2,{1}}, {9,{ 4 }}, {5,{ 7 }}, {1,{ 10 }} };
     std::map<int, emplacey> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->second.binarized == 1);
+    REQUIRE(countyvec.begin()->second.debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->second.binarized == 0);
+    REQUIRE(emptyvec.begin()->second.debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::multiset.
+
+TEST_CASE("std::multiset de/binaryized with binaryizable type county", "[container,multiset,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::multiset<county> countyvec{ {1,2,3}, {4,5,6}, {1,2,3}, {10,11,12} };
+    std::multiset<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->binarized == 1);
+    REQUIRE(countyvec.begin()->debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->binarized == 0);
+    REQUIRE(emptyvec.begin()->debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::multimap.
+
+TEST_CASE("std::multimap de/binaryized with binaryizable type county", "[container,multimap,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::multimap<int, county> countyvec{ {3,{1,2,3}}, {5,{4,5,6}}, {3,{7,8,9}}, {0,{10,11,12}} };
+    std::multimap<int, county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->second.binarized == 1);
+    REQUIRE(countyvec.begin()->second.debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->second.binarized == 0);
+    REQUIRE(emptyvec.begin()->second.debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// Unordered...
+
+// std::set.
+
+TEST_CASE("std::unordered_set de/binaryized with binaryizable type county", "[container,unordered_set,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::unordered_set<county> countyvec{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::unordered_set<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->binarized == 1);
+    REQUIRE(countyvec.begin()->debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->binarized == 0);
+    REQUIRE(emptyvec.begin()->debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::unordered_map.
+
+TEST_CASE("std::unordered_map de/binaryized with binaryizable type county", "[container,unordered_map,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::unordered_map<int, county> countyvec{ {3,{1,2,3}}, {5,{4,5,6}}, {2,{7,8,9}}, {0,{10,11,12}} };
+    std::unordered_map<int, county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->second.binarized == 1);
+    REQUIRE(countyvec.begin()->second.debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->second.binarized == 0);
+    REQUIRE(emptyvec.begin()->second.debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+TEST_CASE("std::unordered_map de/binaryized with emplaceable type emplacey", "[container,unordered_map,emplacey]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::unordered_map<int, emplacey> countyvec{ {2,{1}}, {9,{ 4 }}, {5,{ 7 }}, {1,{ 10 }} };
+    std::unordered_map<int, emplacey> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->second.binarized == 1);
+    REQUIRE(countyvec.begin()->second.debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->second.binarized == 0);
+    REQUIRE(emptyvec.begin()->second.debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::unordered_multiset.
+
+TEST_CASE("std::unordered_multiset de/binaryized with binaryizable type county", "[container,unordered_multiset,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::unordered_multiset<county> countyvec{ {1,2,3}, {4,5,6}, {1,2,3}, {10,11,12} };
+    std::unordered_multiset<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->binarized == 1);
+    REQUIRE(countyvec.begin()->debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->binarized == 0);
+    REQUIRE(emptyvec.begin()->debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::unordered_multimap.
+
+TEST_CASE("std::unordered_multimap de/binaryized with binaryizable type county", "[container,unordered_multimap,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::unordered_multimap<int, county> countyvec{ {3,{1,2,3}}, {5,{4,5,6}}, {3,{7,8,9}}, {0,{10,11,12}} };
+    std::unordered_multimap<int, county> emptyvec;
 
     REQUIRE(countyvec != emptyvec);
 
