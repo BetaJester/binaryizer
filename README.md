@@ -127,3 +127,5 @@ You may note the use of `archive.get<int>();`{:.language-cpp} in the above. Ther
 - [x] Constructor
 - [ ] std::range
 - [ ] Damn std::vector<bool>?
+- [ ] Double check license on all files, all files in cmake lists.
+- [ ] Refactor tests for easier everything.

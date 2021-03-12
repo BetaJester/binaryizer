@@ -171,7 +171,7 @@ TEST_CASE("std::vector de/binaryized with binaryizable type county", "[container
 
 }
 
-TEST_CASE("std::vector de/binaryized with emplaceable type county", "[container,vector,emplacey]") {
+TEST_CASE("std::vector de/binaryized with emplaceable type emplacey", "[container,vector,emplacey]") {
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
     REQUIRE(iobin.good());
@@ -230,6 +230,33 @@ TEST_CASE("std::deque de/binaryized with binaryizable type county", "[container,
 
     std::deque<county> countyvec{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
     std::deque<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec[0].binarized == 1);
+    REQUIRE(countyvec[0].debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec[0].binarized == 0);
+    REQUIRE(emptyvec[0].debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+TEST_CASE("std::deque de/binaryized with emplaceable type emplacey", "[container,deque,emplacey]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::deque<emplacey> countyvec{ {1}, { 4 }, { 7 }, { 10 } };
+    std::deque<emplacey> emptyvec;
 
     REQUIRE(countyvec != emptyvec);
 
@@ -351,6 +378,62 @@ TEST_CASE("std::set de/binaryized with binaryizable type county", "[container,se
 
     REQUIRE(emptyvec.begin()->binarized == 0);
     REQUIRE(emptyvec.begin()->debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::map.
+
+TEST_CASE("std::map de/binaryized with binaryizable type county", "[container,map,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::map<int, county> countyvec{ {3,{1,2,3}}, {5,{4,5,6}}, {2,{7,8,9}}, {0,{10,11,12}} };
+    std::map<int, county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->second.binarized == 1);
+    REQUIRE(countyvec.begin()->second.debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->second.binarized == 0);
+    REQUIRE(emptyvec.begin()->second.debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+TEST_CASE("std::map de/binaryized with emplaceable type emplacey", "[container,deque,emplacey]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    std::map<int, emplacey> countyvec{ {2,{1}}, {9,{ 4 }}, {5,{ 7 }}, {1,{ 10 }} };
+    std::map<int, emplacey> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.begin()->second.binarized == 1);
+    REQUIRE(countyvec.begin()->second.debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.begin()->second.binarized == 0);
+    REQUIRE(emptyvec.begin()->second.debinarized == 1);
 
     REQUIRE(countyvec == emptyvec);
 
