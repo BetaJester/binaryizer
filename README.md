@@ -97,9 +97,13 @@ You may note the use of `archive.get<int>();`{:.language-cpp} in the above. Ther
 
 ## TODO
 
-- [ ] STL header & tests
+- [ ] STL header & tests (finish containers)
 - [ ] Endian optional & tests
 - [ ] Unique pointers & tests
 - [ ] Inheritance docs and tests
 - [ ] Document all methods
 - [ ] Expose all methods?
+- [ ] Constructor / make_binarizable<T>()
+- [ ] Emplace calls
+- [ ] std::range
+- [ ] Damn std::vector<bool>?

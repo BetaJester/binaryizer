@@ -31,6 +31,7 @@ add_executable(binaryizer_tests
 	"external_tests.cpp"
 	"exttester.hpp"
 	"main.cpp"
+	"overloads_tests.cpp"
 	"readme_tests.cpp"
 	"stream_tests.cpp"
 	)
