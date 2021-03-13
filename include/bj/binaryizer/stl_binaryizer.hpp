@@ -15,6 +15,8 @@
 #include <map>
 #include <unordered_set>
 #include <unordered_map>
+#include <stack>
+#include <queue>
 
 #include "binaryizer.hpp"
 
@@ -421,6 +423,78 @@ namespace bj {
             in(k);
             data.emplace(k, in);
         }
+    }
+
+    // Protected access.
+    // Underlying container in wrappers is always called "c".
+    // Expecation: as protected (so accessible to third party classes) in the standard
+    // this is unlikely to change. A class inheriting from a class, neither of which
+    // use polymorphism, and adds no data members, will have the same layout as the parent
+    // class. 
+
+    template<class Parent>
+    struct inner_container : Parent {
+        using Parent::c;
+    };
+
+    // std::stack.
+
+    template<typename T, typename Container>
+    inline void binaryize(obinaryizer &out, const std::stack<T, Container> &data) {
+        const Container &c = data.*(&inner_container<std::stack<T, Container>>::c);
+        out(c);
+    }
+
+    template<typename T, typename Container>
+    inline void debinaryize(ibinaryizer &in, std::stack<T, Container> &data) {
+        Container &c = data.*(&inner_container<std::stack<T, Container>>::c);
+        in(c);
+    }
+
+    template<debinaryizable_emplace T, typename Container>
+    inline void debinaryize(ibinaryizer &in, std::stack<T, Container> &data) {
+        Container &c = data.*(&inner_container<std::stack<T, Container>>::c);
+        in(c);
+    }
+
+    // std::queue.
+
+    template<typename T, typename Container>
+    inline void binaryize(obinaryizer &out, const std::queue<T, Container> &data) {
+        const Container &c = data.*(&inner_container<std::queue<T, Container>>::c);
+        out(c);
+    }
+
+    template<typename T, typename Container>
+    inline void debinaryize(ibinaryizer &in, std::queue<T, Container> &data) {
+        Container &c = data.*(&inner_container<std::queue<T, Container>>::c);
+        in(c);
+    }
+
+    template<debinaryizable_emplace T, typename Container>
+    inline void debinaryize(ibinaryizer &in, std::queue<T, Container> &data) {
+        Container &c = data.*(&inner_container<std::queue<T, Container>>::c);
+        in(c);
+    }
+
+    // std::priority_queue.
+
+    template<typename T, typename Container>
+    inline void binaryize(obinaryizer &out, const std::priority_queue<T, Container> &data) {
+        const Container &c = data.*(&inner_container<std::priority_queue<T, Container>>::c);
+        out(c);
+    }
+
+    template<typename T, typename Container>
+    inline void debinaryize(ibinaryizer &in, std::priority_queue<T, Container> &data) {
+        Container &c = data.*(&inner_container<std::priority_queue<T, Container>>::c);
+        in(c);
+    }
+
+    template<debinaryizable_emplace T, typename Container>
+    inline void debinaryize(ibinaryizer &in, std::priority_queue<T, Container> &data) {
+        Container &c = data.*(&inner_container<std::priority_queue<T, Container>>::c);
+        in(c);
     }
 
 } // namespace bj.

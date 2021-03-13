@@ -641,3 +641,93 @@ TEST_CASE("std::unordered_multimap de/binaryized with binaryizable type county",
     REQUIRE(countyvec == emptyvec);
 
 }
+
+// std::stack.
+
+TEST_CASE("std::stack de/binaryized with binaryizable type county", "[container,stack,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+    std::deque<county> deq{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::stack<county> countyvec{ deq };
+    std::stack<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.top().binarized == 1);
+    REQUIRE(countyvec.top().debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.top().binarized == 0);
+    REQUIRE(emptyvec.top().debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::queue.
+
+TEST_CASE("std::queue de/binaryized with binaryizable type county", "[container,queue,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+    std::deque<county> deq{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::queue<county> countyvec{ deq };
+    std::queue<county> emptyvec;
+
+    REQUIRE(countyvec != emptyvec);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.front().binarized == 1);
+    REQUIRE(countyvec.front().debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.front().binarized == 0);
+    REQUIRE(emptyvec.front().debinarized == 1);
+
+    REQUIRE(countyvec == emptyvec);
+
+}
+
+// std::priority_queue.
+
+TEST_CASE("std::priority_queue de/binaryized with binaryizable type county", "[container,priority_queue,county]") {
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    REQUIRE(iobin.good());
+
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+    std::deque<county> deq{ {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
+    std::priority_queue<county> countyvec{ deq.begin(), deq.end() };
+    std::priority_queue<county> emptyvec;
+
+    auto &c = countyvec.*(&bj::inner_container<std::priority_queue<county>>::c);
+    auto &e = emptyvec.*(&bj::inner_container<std::priority_queue<county>>::c);
+
+    REQUIRE(c != e);
+
+    obin(countyvec);
+
+    REQUIRE(countyvec.top().binarized == 1);
+    REQUIRE(countyvec.top().debinarized == 0);
+
+    ibin(emptyvec);
+
+    REQUIRE(emptyvec.top().binarized == 0);
+    REQUIRE(emptyvec.top().debinarized == 1);
+
+    REQUIRE(c == e);
+
+}
