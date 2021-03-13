@@ -5,6 +5,7 @@
 #pragma once
 
 #include <type_traits>
+#include "endian_settings.hpp"
 
 namespace bj {
 
@@ -25,12 +26,10 @@ namespace bj {
         static constexpr bool value{ false };
     };
 
-    template<binaryizable_internal T>
-    struct is_binaryizable<T> {
-        static constexpr bool value{ true };
-    };
+    template<typename T>
+    concept binaryizable = binaryizable_external<T> or binaryizable_internal<T>;
 
-    template<binaryizable_external T>
+    template<binaryizable T>
     struct is_binaryizable<T> {
         static constexpr bool value{ true };
     };
@@ -38,7 +37,7 @@ namespace bj {
     template<typename T> constexpr bool is_binaryizable_v = is_binaryizable<T>::value;
 
     template<typename T>
-    concept binaryizable = binaryizable_external<T> or binaryizable_internal<T>;
+    concept arithmetic_noraw_out = std::is_arithmetic_v<T> && forced_endian_out != std::endian::native;
 
     // Concepts / traits for input.
 
@@ -49,16 +48,17 @@ namespace bj {
     concept debinaryizable_external = requires(T t, ibinaryizer & b) { debinaryize(b, t); };
 
     template<typename T>
+    concept debinaryizable_emplace = std::is_constructible_v<T, ibinaryizer &>;
+
+    template<typename T>
     struct is_debinaryizable {
         static constexpr bool value{ false };
     };
 
-    template<debinaryizable_internal T>
-    struct is_debinaryizable<T> {
-        static constexpr bool value{ true };
-    };
+    template<typename T>
+    concept debinaryizable = debinaryizable_external<T> or debinaryizable_internal<T>;
 
-    template<debinaryizable_external T>
+    template<debinaryizable T>
     struct is_debinaryizable<T> {
         static constexpr bool value{ true };
     };
@@ -66,7 +66,7 @@ namespace bj {
     template<typename T> constexpr bool is_debinaryizable_v = is_debinaryizable<T>::value;
 
     template<typename T>
-    concept debinaryizable = debinaryizable_external<T> or debinaryizable_internal<T>;
+    concept arithmetic_noraw_in = std::is_arithmetic_v<T> && forced_endian_in != std::endian::native;
 
     // And how the crap isn't this supplied?
     template<typename T>
@@ -77,6 +77,12 @@ namespace bj {
     concept unknown = std::is_arithmetic_v<T> == false && is_binaryizable_v<T> == false;
 
     // Easier overloads
+    template<typename T>
+    concept noraw_in = arithmetic_noraw_in<T> or debinaryizable<T>;
+
+    template<typename T>
+    concept noraw_out = arithmetic_noraw_out<T> or binaryizable<T>;
+
     template<typename T>
     concept norawable = arithmetic<T> or binaryizable<T> or debinaryizable<T>;
 

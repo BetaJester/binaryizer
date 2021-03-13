@@ -34,7 +34,8 @@ add_executable(binaryizer_tests
 	"overloads_tests.cpp"
 	"readme_tests.cpp"
 	"stream_tests.cpp"
-	)
+	"emplace_tests.cpp"
+	 "emplacey.hpp")
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
