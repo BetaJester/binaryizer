@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <iterator>
 #include <cstdint>
 
 #include "traits_n_concepts.hpp"
@@ -53,11 +54,9 @@ namespace bj {
             gettem(data);
         }
 
-        template<norawable T, std::size_t N>
+        template<noraw_in T, std::size_t N>
         void get(T(&data)[N]) {
-            for (auto &x : data) {
-                get(x);
-            }
+            get(std::begin(data), std::end(data));
         }
 
         template<std::forward_iterator It>
