@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <iterator>
 #include <cstdint>
 
 #include "traits_n_concepts.hpp"
@@ -46,11 +47,9 @@ namespace bj {
             puttem(data);
         }
 
-        template<norawable T, std::size_t N>
-        void put(const T(&data)[N]) {
-            for (const auto &x : data) {
-                put(x);
-            }
+        template<noraw_out T, std::size_t N>
+        void put(T(&data)[N]) {
+            put(std::begin(data), std::end(data));
         }
 
         template<std::forward_iterator It>

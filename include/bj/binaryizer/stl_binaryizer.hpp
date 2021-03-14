@@ -29,22 +29,12 @@ namespace bj {
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
 
-    template<arithmetic_noraw_out T, std::size_t N>
-    inline void binaryize(obinaryizer &out, const std::array<T, N> &data) {
-        out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
-    }
-
     template<noraw_out T, std::size_t N>
     inline void binaryize(obinaryizer &out, const std::array<T, N> &data) {
         out.put(data.begin(), data.end());
     }
 
     template<typename T, std::size_t N>
-    inline void debinaryize(ibinaryizer &in, std::array<T, N> &data) {
-        in.getraw(reinterpret_cast<std::byte *>(data.data()), N * sizeof(T));
-    }
-
-    template<arithmetic_noraw_in T, std::size_t N>
     inline void debinaryize(ibinaryizer &in, std::array<T, N> &data) {
         in.getraw(reinterpret_cast<std::byte *>(data.data()), N * sizeof(T));
     }
@@ -62,12 +52,6 @@ namespace bj {
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
 
-    template<arithmetic_noraw_out T, typename Alloc>
-    inline void binaryize(obinaryizer &out, const std::vector<T, Alloc> &data) {
-        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
-        out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
-    }
-
     template<noraw_out T, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::vector<T, Alloc> &data) {
         out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
@@ -75,13 +59,6 @@ namespace bj {
     }
 
     template<typename T, typename Alloc>
-    inline void debinaryize(ibinaryizer &in, std::vector<T, Alloc> &data) {
-        const std::uint32_t size = in.get<std::uint32_t>();
-        data.resize(size);
-        in.getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
-    }
-
-    template<arithmetic_noraw_in T, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::vector<T, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         data.resize(size);
