@@ -34,5 +34,6 @@ pwropt_target_cxx_latest(binaryizer INTERFACE)
 
 if (${BINARYIZER_BUILD_TESTS})
 	enable_testing()
-	add_subdirectory("tests")
+	add_subdirectory("tests/unittests")
+	add_subdirectory("tests/standalones")
 endif()
