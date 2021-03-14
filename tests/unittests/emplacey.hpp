@@ -32,3 +32,12 @@ struct emplacey {
     }
 
 };
+
+namespace std {
+    template <>
+    struct hash<emplacey> {
+        [[nodiscard]] size_t operator()(const emplacey &val) const noexcept {
+            return std::hash<int>()(val.x);
+        }
+    };
+} // namespace std.

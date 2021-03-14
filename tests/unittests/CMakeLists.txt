@@ -25,7 +25,7 @@ include(CTest)
 FetchContent_MakeAvailable(pwropt Catch2)
 
 add_executable(binaryizer_tests 
-	"container_tests.cpp"
+	#"container_tests.cpp"
 	"county.hpp"
 	"endian_tests.cpp"
 	"external_tests.cpp"
@@ -35,7 +35,26 @@ add_executable(binaryizer_tests
 	"readme_tests.cpp"
 	"stream_tests.cpp"
 	"emplace_tests.cpp"
-	 "emplacey.hpp")
+	"carray.cpp"
+	 "emplacey.hpp" 
+	 "stl/array.cpp"
+	 "stl/vector.cpp"
+	 "stl/deque.cpp"
+	 "stl/forward_list.cpp"
+	 "stl/list.cpp"
+	 "stl/basic_string.cpp"
+	 "stl/set.cpp"
+	 "stl/map.cpp"
+	 "stl/multiset.cpp"
+	 "stl/multimap.cpp"
+	 "stl/unordered_set.cpp"
+	 "stl/unordered_map.cpp"
+	 "stl/unordered_multiset.cpp"
+	 "stl/unordered_multimap.cpp"
+	 "stl/stack.cpp"
+	 "stl/queue.cpp"
+	 "stl/priority_queue.cpp"
+	 "test_iobin.hpp")
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
