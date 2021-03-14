@@ -26,7 +26,6 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/ibinaryizer.hpp"
 	"include/bj/binaryizer/iostream_binaryizer.hpp"
 	"include/bj/binaryizer/obinaryizer.hpp"
-	"include/bj/binaryizer/traits_n_concepts.hpp"
 	"include/bj/binaryizer/stl/array.hpp"
 	"include/bj/binaryizer/stl/basic_string.hpp"
 	"include/bj/binaryizer/stl/deque.hpp"
@@ -41,12 +40,14 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/queue.hpp"
 	"include/bj/binaryizer/stl/set.hpp"
 	"include/bj/binaryizer/stl/stack.hpp"
+	"include/bj/binaryizer/stl/unique_ptr.hpp"
 	"include/bj/binaryizer/stl/unordered_map.hpp"
 	"include/bj/binaryizer/stl/unordered_multimap.hpp"
 	"include/bj/binaryizer/stl/unordered_multiset.hpp"
 	"include/bj/binaryizer/stl/unordered_set.hpp"
 	"include/bj/binaryizer/stl/vector.hpp"
-	)
+	"include/bj/binaryizer/traits_n_concepts.hpp"
+)
 pwropt_target_compile_options(binaryizer INTERFACE pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer INTERFACE)
 
