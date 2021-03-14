@@ -10,6 +10,23 @@
 namespace bj {
 
     // Helper class for easy child classes.
-    class [[nodiscard]] iobinaryizer : public ibinaryizer, public obinaryizer {};
+    class [[nodiscard]] iobinaryizer : public ibinaryizer, public obinaryizer {
+    
+    public:
+
+        ibinaryizer &as_in()  { return *this; }
+        obinaryizer &as_out() { return *this; }
+
+        template<typename ...Args>
+        void in(Args &&...args) {
+            (as_in()(std::forward<Args>(args)), ...);
+        }
+
+        template<typename ...Args>
+        void out(Args &&...args) {
+            (as_out()(std::forward<Args>(args)), ...);
+        }
+
+    };
 
 } // namespace bj.

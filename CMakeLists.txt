@@ -26,13 +26,32 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/ibinaryizer.hpp"
 	"include/bj/binaryizer/iostream_binaryizer.hpp"
 	"include/bj/binaryizer/obinaryizer.hpp"
-	"include/bj/binaryizer/stl_binaryizer.hpp"
 	"include/bj/binaryizer/traits_n_concepts.hpp"
+	"include/bj/binaryizer/stl/array.hpp"
+	"include/bj/binaryizer/stl/basic_string.hpp"
+	"include/bj/binaryizer/stl/deque.hpp"
+	"include/bj/binaryizer/stl/forward_list.hpp"
+	"include/bj/binaryizer/stl/inner_container.hpp"
+	"include/bj/binaryizer/stl/list.hpp"
+	"include/bj/binaryizer/stl/map.hpp"
+	"include/bj/binaryizer/stl/multimap.hpp"
+	"include/bj/binaryizer/stl/multiset.hpp"
+	"include/bj/binaryizer/stl/pair.hpp"
+	"include/bj/binaryizer/stl/priority_queue.hpp"
+	"include/bj/binaryizer/stl/queue.hpp"
+	"include/bj/binaryizer/stl/set.hpp"
+	"include/bj/binaryizer/stl/stack.hpp"
+	"include/bj/binaryizer/stl/unordered_map.hpp"
+	"include/bj/binaryizer/stl/unordered_multimap.hpp"
+	"include/bj/binaryizer/stl/unordered_multiset.hpp"
+	"include/bj/binaryizer/stl/unordered_set.hpp"
+	"include/bj/binaryizer/stl/vector.hpp"
 	)
 pwropt_target_compile_options(binaryizer INTERFACE pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer INTERFACE)
 
 if (${BINARYIZER_BUILD_TESTS})
 	enable_testing()
-	add_subdirectory("tests")
+	add_subdirectory("tests/unittests")
+	add_subdirectory("tests/standalones")
 endif()
