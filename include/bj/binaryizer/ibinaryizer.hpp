@@ -50,6 +50,11 @@ namespace bj {
             return data;
         }
 
+        template<debinaryizable_emplace T>
+        [[nodiscard]] T get() {
+            return T{ *this };
+        }
+
         template<typename T, std::size_t N>
         void get(T(&data)[N]) {
             gettem(data);

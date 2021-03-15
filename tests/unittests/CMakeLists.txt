@@ -47,6 +47,7 @@ add_executable(binaryizer_tests
 	"stl/queue.cpp"
 	"stl/set.cpp"
 	"stl/stack.cpp"
+	"stl/tuple.cpp"
 	"stl/unordered_map.cpp"
 	"stl/unordered_multimap.cpp"
 	"stl/unordered_multiset.cpp"

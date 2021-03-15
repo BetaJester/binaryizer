@@ -40,6 +40,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/queue.hpp"
 	"include/bj/binaryizer/stl/set.hpp"
 	"include/bj/binaryizer/stl/stack.hpp"
+	"include/bj/binaryizer/stl/tuple.hpp"
 	"include/bj/binaryizer/stl/unique_ptr.hpp"
 	"include/bj/binaryizer/stl/unordered_map.hpp"
 	"include/bj/binaryizer/stl/unordered_multimap.hpp"

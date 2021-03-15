@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <fmt/format.h>
 #include <bj/binaryizer/binaryizer.hpp>
 
 struct emplacey {
@@ -19,7 +20,12 @@ struct emplacey {
         return x == rhs.x;
     }
 
+    //emplacey() noexcept = default;
     emplacey(int n) : x{ n } {}
+    //emplacey(emplacey &&) noexcept = default;
+    //emplacey(const emplacey &) noexcept = default;
+    //emplacey &operator=(emplacey &&) noexcept = default;
+    //emplacey &operator=(const emplacey &) noexcept = default;
 
     emplacey(bj::ibinaryizer &in) {
         in(x);
@@ -29,6 +35,10 @@ struct emplacey {
     void binaryize(bj::obinaryizer &out) const {
         out(x);
         ++binarized;
+    }
+
+    friend std::ostream &operator<<(std::ostream &out, const emplacey &x) {
+        return out << fmt::format("[{}]", x.x);
     }
 
 };

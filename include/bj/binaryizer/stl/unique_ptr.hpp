@@ -11,20 +11,29 @@ namespace bj {
 
     template<typename T, typename Deleter>
     inline void binaryize(obinaryizer &out, const std::unique_ptr<T, Deleter> &data) {
-        out(*data);
+        if (data) {
+            out.put<std::uint8_t>(1);
+            out(*data);
+        } else {
+            out.put<std::uint8_t>(0);
+        }
     }
 
     template<typename T, typename Deleter>
     inline void debinaryize(ibinaryizer &in, std::unique_ptr<T, Deleter> &data) {
-        if (!data) {
+        const auto is_set = in.get<std::uint8_t>();
+        if (is_set) {
             data = std::make_unique<T>();
+            in(*data);
         }
-        in(*data);
     }
 
     template<debinaryizable_emplace T, typename Deleter>
     inline void debinaryize(ibinaryizer &in, std::unique_ptr<T, Deleter> &data) {
-        data = std::make_unique<T>(in);
+        const auto is_set = in.get<std::uint8_t>();
+        if (is_set) {
+            data = std::make_unique<T>(in);
+        }
     }
 
 } // namespace bj.
