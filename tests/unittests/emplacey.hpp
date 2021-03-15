@@ -37,8 +37,8 @@ struct emplacey {
         ++binarized;
     }
 
-    friend std::ostream &operator<<(std::ostream &out, const emplacey &x) {
-        return out << fmt::format("[{}]", x.x);
+    friend std::ostream &operator<<(std::ostream &out, const emplacey &e) {
+        return out << fmt::format("[{}]", e.x);
     }
 
 };
