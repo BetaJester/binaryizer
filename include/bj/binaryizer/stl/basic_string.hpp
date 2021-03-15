@@ -9,17 +9,17 @@
 
 namespace bj {
 
-    template<typename T, typename Traits, typename Alloc>
+    template<explicity_raw T, typename Traits, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::basic_string<T, Traits, Alloc> &data) {
         out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
-        out.put(data.begin(), data.end());
+        out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
 
-    template<typename T, typename Traits, typename Alloc>
+    template<explicity_raw T, typename Traits, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::basic_string<T, Traits, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         data.resize(size);
-        in.get(data.begin(), data.end());
+        in.getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
     }
 
 } // namespace bj.

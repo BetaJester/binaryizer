@@ -6,12 +6,23 @@
 
 #include <type_traits>
 #include "endian_settings.hpp"
+#include "expbin.hpp"
 
 namespace bj {
 
     class ibinaryizer;
     class obinaryizer;
     class iobinaryizer;
+
+    // Useful
+    
+    template<typename T>
+    concept boolean = std::is_same_v<T, bool>;
+
+    // How the crap isn't this supplied?
+    template<typename T>
+    concept arithmetic = std::is_arithmetic_v<T> && !boolean<T>;
+
 
     // Concepts / traits for output.
 
@@ -37,7 +48,7 @@ namespace bj {
     template<typename T> constexpr bool is_binaryizable_v = is_binaryizable<T>::value;
 
     template<typename T>
-    concept arithmetic_noraw_out = std::is_arithmetic_v<T> && forced_endian_out != std::endian::native;
+    concept arithmetic_noraw_out = arithmetic<T> && forced_endian_out != std::endian::native;
 
     // Concepts / traits for input.
 
@@ -66,15 +77,11 @@ namespace bj {
     template<typename T> constexpr bool is_debinaryizable_v = is_debinaryizable<T>::value;
 
     template<typename T>
-    concept arithmetic_noraw_in = std::is_arithmetic_v<T> && forced_endian_in != std::endian::native;
-
-    // And how the crap isn't this supplied?
-    template<typename T>
-    concept arithmetic = std::is_arithmetic_v<T>;
+    concept arithmetic_noraw_in = arithmetic<T> && forced_endian_in != std::endian::native;
 
     // GCC is making me angry, this fixes an ambiguous call.
     template<typename T>
-    concept unknown = std::is_arithmetic_v<T> == false && is_binaryizable_v<T> == false;
+    concept unknown = arithmetic<T> == false && is_binaryizable_v<T> == false;
 
     // Easier overloads
     template<typename T>
@@ -85,5 +92,12 @@ namespace bj {
 
     template<typename T>
     concept norawable = arithmetic<T> or binaryizable<T> or debinaryizable<T>;
+
+    // Explicity raw output allowed.
+
+    template<typename T> struct is_binwrapped { static constexpr bool value{ false }; };
+    template<typename T> struct is_binwrapped<binwrap<T>> { static constexpr bool value{ true }; };
+    template<typename T> constexpr bool is_binwrapped_v = is_binwrapped<T>::value;
+    template<typename T> concept explicity_raw = is_binwrapped_v<T> || arithmetic<T>;
 
 } // namespace bj.

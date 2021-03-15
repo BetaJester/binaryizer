@@ -9,7 +9,7 @@
 
 namespace bj {
 
-    template<typename T, std::size_t N>
+    template<explicity_raw T, std::size_t N>
     inline void binaryize(obinaryizer &out, const std::array<T, N> &data) {
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
@@ -19,7 +19,7 @@ namespace bj {
         out.put(data.begin(), data.end());
     }
 
-    template<typename T, std::size_t N>
+    template<explicity_raw T, std::size_t N>
     inline void debinaryize(ibinaryizer &in, std::array<T, N> &data) {
         in.getraw(reinterpret_cast<std::byte *>(data.data()), N * sizeof(T));
     }
