@@ -43,6 +43,11 @@ namespace bj {
             data = endian_convert<forced_endian_in>(data);
         }
 
+        template<boolean T>
+        void get(T &data) {
+            data = get<std::uint8_t>();
+        }
+
         template<arithmetic T>
         [[nodiscard]] T get() {
             T data;

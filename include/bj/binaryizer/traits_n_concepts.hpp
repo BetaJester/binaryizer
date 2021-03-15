@@ -70,7 +70,10 @@ namespace bj {
 
     // And how the crap isn't this supplied?
     template<typename T>
-    concept arithmetic = std::is_arithmetic_v<T>;
+    concept arithmetic = std::is_arithmetic_v<T> && !std::is_same_v<T, bool>;
+
+    template<typename T>
+    concept boolean = std::is_same_v<T, bool>;
 
     // GCC is making me angry, this fixes an ambiguous call.
     template<typename T>

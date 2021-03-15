@@ -42,6 +42,11 @@ namespace bj {
             puttem(endian_convert<forced_endian_out>(data));
         }
 
+        template<boolean T>
+        void put(const T data) {
+            put<std::uint8_t>(data);
+        }
+
         template<typename T, std::size_t N>
         void put(const T(&data)[N]) {
             puttem(data);
