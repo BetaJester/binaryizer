@@ -17,11 +17,6 @@ namespace bj {
 
     class [[nodiscard]] ibinaryizer {
 
-    public:
-
-        virtual ~ibinaryizer() = default;
-        virtual void getraw(std::byte *const data, const std::size_t size) = 0;
-
         template<typename T>
         void gettem(T &data) {
             getraw(reinterpret_cast<std::byte *>(&data), sizeof(T));
@@ -32,9 +27,20 @@ namespace bj {
             getraw(reinterpret_cast<std::byte *>(data), sizeof(T) * N);
         }
 
+    public:
+
+        virtual ~ibinaryizer() = default;
+        virtual void getraw(std::byte *const data, const std::size_t size) = 0;
+
+
         template<typename T>
-        void get(T &data) {
-            gettem(data);
+        void get(expbin<T> &&data) {
+            gettem(*data);
+        }
+
+        template<typename T>
+        void get(binwrap<T> &data) {
+            gettem(*data);
         }
 
         template<arithmetic T>
@@ -60,7 +66,7 @@ namespace bj {
             return T{ *this };
         }
 
-        template<typename T, std::size_t N>
+        template<explicity_raw T, std::size_t N>
         void get(T(&data)[N]) {
             gettem(data);
         }

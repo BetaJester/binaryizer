@@ -5,15 +5,7 @@
 #include <catch2/catch.hpp>
 #include "test_iobin.hpp"
 #include "county.hpp"
-
-template<class A, std::size_t AN, class B, std::size_t BN>
-[[nodiscard]] bool compare_arrays(A(&a)[AN], B(&b)[BN]) {
-    static_assert(AN == BN);
-    for (std::size_t i{}; i < AN; ++i) {
-        if (a[i] != b[i]) return false;
-    }
-    return true;
-}
+#include "compare_arrays.hpp"
 
 TEST_CASE("C array de/binaryized with arithmetic types", "[container,carray,arithmetic]") {
 

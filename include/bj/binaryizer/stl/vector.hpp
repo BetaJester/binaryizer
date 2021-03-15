@@ -9,7 +9,7 @@
 
 namespace bj {
 
-    template<typename T, typename Alloc>
+    template<explicity_raw T, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::vector<T, Alloc> &data) {
         out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
@@ -21,7 +21,7 @@ namespace bj {
         out.put(data.begin(), data.end());
     }
 
-    template<typename T, typename Alloc>
+    template<explicity_raw T, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::vector<T, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         data.resize(size);
