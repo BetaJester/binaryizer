@@ -23,8 +23,10 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/binaryizer.hpp"
 	"include/bj/binaryizer/endian.hpp"
 	"include/bj/binaryizer/endian_settings.hpp"
+	"include/bj/binaryizer/expbin.hpp"
 	"include/bj/binaryizer/ibinaryizer.hpp"
 	"include/bj/binaryizer/iostream_binaryizer.hpp"
+	"include/bj/binaryizer/midiint.hpp"
 	"include/bj/binaryizer/obinaryizer.hpp"
 	"include/bj/binaryizer/stl/array.hpp"
 	"include/bj/binaryizer/stl/basic_string.hpp"
@@ -48,7 +50,6 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/unordered_set.hpp"
 	"include/bj/binaryizer/stl/vector.hpp"
 	"include/bj/binaryizer/traits_n_concepts.hpp"
-	"include/bj/binaryizer/expbin.hpp"
 )
 pwropt_target_compile_options(binaryizer INTERFACE pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer INTERFACE)
