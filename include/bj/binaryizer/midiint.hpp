@@ -4,11 +4,9 @@
 
 #pragma once
 
-// Conversion algorithms courtesy of...
-// http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html#BMA2_
-
 #include <type_traits>
 #include <cstdint>
+#include "stackstack.hpp"
 
 namespace bj {
 
@@ -25,21 +23,27 @@ namespace bj {
         template<typename Archive>
         void binaryize(Archive &out) const {
 
-            T temp = item;
-            T buff = temp & 0x7F;
-            while ((temp >>= 7) > 0) {
-                buff <<= 8;
-                buff |= 0x80;
-                buff += temp & 0x7F;
+            if (item == 0) {
+                out.template put<std::uint8_t>(0);
+                return;
             }
 
-            while (true) {
-                out(static_cast<std::uint8_t>(buff));
-                if (buff & 0x80) {
-                    buff >>= 8;
-                } else {
-                    break;
+            // TODO: Calculate largest actually needed for type.
+            stackstack<std::uint8_t, 10> buffer;
+
+            std::uintmax_t temp = item;
+
+            while (temp > 0) {
+                std::uint8_t b = static_cast<std::uint8_t>(temp) & 0x7F;
+                if (temp > 127) {
+                    b |= 0x80;
                 }
+                buffer.push(b);
+                temp >>= 7;
+            }
+
+            for (const auto b : buffer) {
+                out(b);
             }
 
         }
@@ -47,15 +51,20 @@ namespace bj {
         template<typename Archive>
         void debinaryize(Archive &in) {
 
-            T value{};
-            std::uint8_t c{};
-            if (value = in.template get<std::uint8_t>(); value & 0x80) {
-                value &= 0x7F;
-                do {
-                    value = (value << 7) + ((c = in.template get<std::uint8_t>()) & 0x7F);
-                } while (c & 0x80);
+            stackstack<std::uint8_t, 10> buffer;
+            
+            for (std::uint8_t c{}; true;) {
+                in(c);
+                buffer.push(c & 0x7F);
+                if ((c & 0x80) == 0) {
+                    break;
+                }
             }
-            item = value;
+
+            item = 0;
+            for (auto it = buffer.rbegin(); it < buffer.rend(); ++it) {
+                item = (item << 7) | *it;
+            }
 
         }
 

@@ -77,3 +77,39 @@ TEST_CASE("midiint works unsigned huge number", "[midiint,unsigned,huge]") {
     REQUIRE(in == num);
 
 }
+
+TEST_CASE("midiint works unsigned biggest number", "[midiint,unsigned,biggest]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::uint64_t num{ std::numeric_limits<std::uint64_t>::max() };
+    std::uint64_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 10);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works unsigned smallest number", "[midiint,unsigned,smallest]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::uint64_t num{};
+    std::uint64_t in{ 101 };
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 1);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}

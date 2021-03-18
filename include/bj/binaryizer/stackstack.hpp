@@ -48,13 +48,13 @@ namespace bj {
         [[nodiscard]] constexpr auto begin() const noexcept(noexcept(m_array.begin())) { return m_array.begin(); }
         [[nodiscard]] constexpr auto end() noexcept(noexcept(m_array.begin())) { return m_array.begin() + m_count; }
         [[nodiscard]] constexpr auto end() const noexcept(noexcept(m_array.begin())) { return m_array.begin() + m_count; }
-        [[nodiscard]] constexpr auto rbegin() noexcept(noexcept(m_array.rbegin())) { return m_array.rbegin() + (N - m_count); }
+        [[nodiscard]] constexpr auto rbegin() noexcept(noexcept(m_array.rbegin())) { return m_array.rbegin() + static_cast<std::ptrdiff_t>(N - m_count); }
         [[nodiscard]] constexpr auto rbegin() const noexcept(noexcept(m_array.rbegin())) { return m_array.rbegin() + (N - m_count); }
         [[nodiscard]] constexpr auto rend() noexcept(noexcept(m_array.rend())) { return m_array.rend(); }
         [[nodiscard]] constexpr auto rend() const noexcept(noexcept(m_array.rend())) { return m_array.rend(); }
         [[nodiscard]] constexpr auto cbegin() const noexcept(noexcept(m_array.cbegin())) { return m_array.cbegin(); }
         [[nodiscard]] constexpr auto cend() const noexcept(noexcept(m_array.cbegin())) { return m_array.cbegin() + m_count; }
-        [[nodiscard]] constexpr auto crbegin() const noexcept(noexcept(m_array.crbegin())) { return m_array.crbegin() + (N - m_count); }
+        [[nodiscard]] constexpr auto crbegin() const noexcept(noexcept(m_array.crbegin())) { return m_array.crbegin() + static_cast<std::ptrdiff_t>(N - m_count); }
         [[nodiscard]] constexpr auto crend() const noexcept(noexcept(m_array.crend())) { return m_array.crend(); }
 
     };
