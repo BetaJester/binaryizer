@@ -55,7 +55,7 @@ add_executable(binaryizer_tests
 	"stl/vector.cpp"
 	"stream_tests.cpp"
 	"test_iobin.hpp"
- "stl/unique_ptr.cpp"  "expbin.cpp" "compare_arrays.hpp" "nobin.hpp" "midiint.cpp")
+ "stl/unique_ptr.cpp"  "expbin.cpp" "compare_arrays.hpp" "nobin.hpp" "midiint.cpp" "stackstack.cpp")
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
