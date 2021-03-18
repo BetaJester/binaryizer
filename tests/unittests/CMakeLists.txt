@@ -26,15 +26,19 @@ FetchContent_MakeAvailable(pwropt Catch2)
 
 add_executable(binaryizer_tests 
 	"carray.cpp"
+	"compare_arrays.hpp"
 	"county.hpp"
-	"emplace_tests.cpp"
+	"emplace.cpp"
 	"emplacey.hpp" 
-	"endian_tests.cpp"
-	"external_tests.cpp"
+	"endian.cpp"
+	"expbin.cpp"
+	"external.cpp"
 	"exttester.hpp"
 	"main.cpp"
-	"overloads_tests.cpp"
-	"readme_tests.cpp"
+	"midiint.cpp"
+	"nobin.hpp"
+	"readme.cpp"
+	"stackstack.cpp"
 	"stl/array.cpp"
 	"stl/basic_string.cpp"
 	"stl/deque.cpp"
@@ -48,14 +52,15 @@ add_executable(binaryizer_tests
 	"stl/set.cpp"
 	"stl/stack.cpp"
 	"stl/tuple.cpp"
+	"stl/unique_ptr.cpp"
 	"stl/unordered_map.cpp"
 	"stl/unordered_multimap.cpp"
 	"stl/unordered_multiset.cpp"
 	"stl/unordered_set.cpp"
 	"stl/vector.cpp"
-	"stream_tests.cpp"
+	"stream.cpp"
 	"test_iobin.hpp"
- "stl/unique_ptr.cpp"  "expbin.cpp" "compare_arrays.hpp" "nobin.hpp" "midiint.cpp" "stackstack.cpp")
+	)
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
