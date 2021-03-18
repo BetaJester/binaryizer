@@ -87,12 +87,12 @@ namespace bj {
         }
 
         template<debinaryizable_internal T>
-        void get(T &t) {
+        void get(T &&t) {
             t.debinaryize(*this);
         }
 
         template<debinaryizable_external T>
-        void get(T &t) {
+        void get(T &&t) {
             debinaryize(*this, t);
         }
 
