@@ -10,13 +10,21 @@ namespace bj {
 
     // Arithmetic type endian fixes.
 
+#if defined(BJ_FORCE_ENDIAN_LITLE)
+#define BJ_FORCE_ENDIAN_OUT_LITLE
+#define BJ_FORCE_ENDIAN_IN_LITLE
+#elif defined (BJ_FORCE_ENDIAN_BIG)
+#define BJ_FORCE_ENDIAN_OUT_BIG
+#define BJ_FORCE_ENDIAN_IN_BIG
+#endif 
+
 #if defined(BJ_FORCE_ENDIAN_OUT_LITLE)
     constexpr std::endian forced_endian_out = std::endian::little;
 #elif defined (BJ_FORCE_ENDIAN_OUT_BIG)
     constexpr std::endian forced_endian_out = std::endian::big;
 #else
     constexpr std::endian forced_endian_out = std::endian::native;
-#endif // BJ_FORCE_LITTLE_ENDIAN
+#endif
 
 #if defined(BJ_FORCE_ENDIAN_IN_LITLE)
     constexpr std::endian forced_endian_in = std::endian::little;
@@ -24,6 +32,6 @@ namespace bj {
     constexpr std::endian forced_endian_in = std::endian::big;
 #else
     constexpr std::endian forced_endian_in = std::endian::native;
-#endif // BJ_FORCE_LITTLE_ENDIAN
+#endif
 
 } // namespace bj.
