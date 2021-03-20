@@ -30,7 +30,7 @@ namespace bj {
         constexpr std::bitset<N> mask{ std::numeric_limits<std::uint64_t>::max() };
         constexpr std::ptrdiff_t output_count = N / 64u;
         for (std::ptrdiff_t i{output_count-1}; i >= 0; --i) {
-            const auto shifted = data >> (i * 64u);
+            const auto shifted = data >> static_cast<std::size_t>(i * 64u);
             const auto masked = shifted & mask;
             const auto output_value = masked.to_ullong();
             out(midiint(output_value));
