@@ -30,6 +30,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/obinaryizer.hpp"
 	"include/bj/binaryizer/stl/array.hpp"
 	"include/bj/binaryizer/stl/basic_string.hpp"
+	"include/bj/binaryizer/stl/bitset.hpp"
 	"include/bj/binaryizer/stl/deque.hpp"
 	"include/bj/binaryizer/stl/forward_list.hpp"
 	"include/bj/binaryizer/stl/inner_container.hpp"

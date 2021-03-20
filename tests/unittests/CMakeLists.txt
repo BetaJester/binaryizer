@@ -41,6 +41,7 @@ add_executable(binaryizer_tests
 	"stackstack.cpp"
 	"stl/array.cpp"
 	"stl/basic_string.cpp"
+	"stl/bitset.cpp"
 	"stl/deque.cpp"
 	"stl/forward_list.cpp"
 	"stl/list.cpp"
