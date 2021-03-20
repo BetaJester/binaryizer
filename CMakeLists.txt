@@ -49,6 +49,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/unordered_multimap.hpp"
 	"include/bj/binaryizer/stl/unordered_multiset.hpp"
 	"include/bj/binaryizer/stl/unordered_set.hpp"
+	"include/bj/binaryizer/stl/valarray.hpp"
 	"include/bj/binaryizer/stl/vector.hpp"
 	"include/bj/binaryizer/traits_n_concepts.hpp"
 	"include/bj/binaryizer/stackstack.hpp"

@@ -58,6 +58,7 @@ add_executable(binaryizer_tests
 	"stl/unordered_multimap.cpp"
 	"stl/unordered_multiset.cpp"
 	"stl/unordered_set.cpp"
+	"stl/valarray.cpp"
 	"stl/vector.cpp"
 	"stream.cpp"
 	"test_iobin.hpp"
