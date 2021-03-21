@@ -10,15 +10,24 @@
 
 namespace bj {
 
+    //void what1() {
+    //    int y = -2;
+    //    fmt::print("{0:#x} ({0})\n", y);
+    //    unsigned int x = bit_cast<unsigned int>(~y);
+    //    fmt::print("{0:#x} ({0})\n", x);
+    //    y = bit_cast<int>(~x);
+    //    fmt::print("{0:#x} ({0})\n", y);
+    //}
+
     template<typename T>
-    requires (std::is_integral_v<T> && std::is_unsigned_v<T> && sizeof(T) > 1)
+    requires (std::is_integral_v<T> && sizeof(T) > 1)
     class [[nodiscard]] midiint final {
 
         T &item;
 
     public:
 
-        midiint(T &t) noexcept : item{ t } {}
+        explicit midiint(T &t) noexcept : item{ t } {}
 
         template<typename Archive>
         void binaryize(Archive &out) const {
@@ -28,10 +37,16 @@ namespace bj {
                 return;
             }
 
+            std::uintmax_t temp{};
+
+            if constexpr (std::is_signed_v<T>) {
+                temp = derp::bit_cast<std::make_unsigned_t<T>>(~item);
+            } else {
+                temp = item;
+            }
+
             // TODO: Calculate largest actually needed for type.
             stackstack<std::uint8_t, 10> buffer;
-
-            std::uintmax_t temp = item;
 
             while (temp > 0) {
                 std::uint8_t b = static_cast<std::uint8_t>(temp) & 0x7F;
@@ -64,6 +79,12 @@ namespace bj {
             item = 0;
             for (auto it = buffer.rbegin(); it < buffer.rend(); ++it) {
                 item = (item << 7) | *it;
+            }
+
+            if constexpr (std::is_signed_v<T>) {
+                if (item != 0) {
+                    item = derp::bit_cast<T>(~item);
+                }
             }
 
         }

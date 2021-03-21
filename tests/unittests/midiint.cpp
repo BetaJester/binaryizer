@@ -113,3 +113,223 @@ TEST_CASE("midiint works unsigned smallest number", "[midiint,unsigned,smallest]
     REQUIRE(in == num);
 
 }
+
+// Signed :)
+
+TEST_CASE("midiint works signed low number", "[midiint,signed,low]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int32_t num{ 5 };
+    std::int32_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 5);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works signed medium number", "[midiint,signed,medium]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int32_t num{ 5000 };
+    std::int32_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 5);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works signed high number", "[midiint,signed,high]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int32_t num{ 500000 };
+    std::int32_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 5);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works signed huge number", "[midiint,signed,huge]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ 68719476735 };
+    std::int64_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 10);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works signed biggest number", "[midiint,signed,biggest]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ std::numeric_limits<std::int64_t>::max() };
+    std::int64_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 10);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works signed zero number", "[midiint,signed,zero]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{};
+    std::int64_t in{ 101 };
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 1);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+// Signed negative :)
+
+TEST_CASE("midiint works negative low number", "[midiint,negative,low]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int32_t num{ -5 };
+    std::int32_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 1);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works negative medium number", "[midiint,negative,medium]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int32_t num{ -5000 };
+    std::int32_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 2);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works negative high number", "[midiint,negative,high]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int32_t num{ -500000 };
+    std::int32_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 3);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works negative huge number", "[midiint,negative,huge]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ -68719476735 };
+    std::int64_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 6);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works negative biggest number", "[midiint,negative,biggest]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ std::numeric_limits<std::int64_t>::max() };
+    std::int64_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 10);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiint works negative smallest number", "[midiint,negative,smallest]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ std::numeric_limits<std::int64_t>::min() };
+    std::int64_t in{ 101 };
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 9);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
