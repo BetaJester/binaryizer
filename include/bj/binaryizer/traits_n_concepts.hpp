@@ -22,8 +22,8 @@ namespace bj {
     template<typename T> concept binaryizable_internal = requires(const T t, obinaryizer & b) { t.binaryize(b); };
     template<typename T> concept binaryizable_external = requires(const T t, obinaryizer & b) { binaryize(b, t); };
     template<typename T> concept binaryizable = binaryizable_external<T> or binaryizable_internal<T>;
-    template<typename T> struct is_binaryizable { static constexpr bool value{ false }; };
-    template<binaryizable T> struct is_binaryizable<T> { static constexpr bool value{ true }; };
+    template<typename T> struct is_binaryizable : std::false_type {};
+    template<binaryizable T> struct is_binaryizable<T> : std::true_type {};
     template<typename T> constexpr bool is_binaryizable_v = is_binaryizable<T>::value;
     template<typename T> concept arithmetic_noraw_out = arithmetic<T> && forced_endian_out != std::endian::native;
 
@@ -31,9 +31,9 @@ namespace bj {
     template<typename T> concept debinaryizable_internal = requires(T t, ibinaryizer & b) { t.debinaryize(b); };
     template<typename T> concept debinaryizable_external = requires(T t, ibinaryizer & b) { debinaryize(b, t); };
     template<typename T> concept debinaryizable_emplace = std::is_constructible_v<T, ibinaryizer &>;
-    template<typename T> struct is_debinaryizable { static constexpr bool value{ false }; };
     template<typename T> concept debinaryizable = debinaryizable_external<T> or debinaryizable_internal<T>;
-    template<debinaryizable T> struct is_debinaryizable<T> { static constexpr bool value{ true }; };
+    template<typename T> struct is_debinaryizable : std::false_type {};
+    template<debinaryizable T> struct is_debinaryizable<T> : std::true_type {};
     template<typename T> constexpr bool is_debinaryizable_v = is_debinaryizable<T>::value;
     template<typename T> concept arithmetic_noraw_in = arithmetic<T> && forced_endian_in != std::endian::native;
 
@@ -46,8 +46,8 @@ namespace bj {
     //template<typename T> concept norawable = arithmetic<T> or binaryizable<T> or debinaryizable<T>;
 
     // Explicity raw output allowed.
-    template<typename T> struct is_binwrapped { static constexpr bool value{ false }; };
-    template<typename T> struct is_binwrapped<binwrap<T>> { static constexpr bool value{ true }; };
+    template<typename T> struct is_binwrapped : std::false_type {};
+    template<typename T> struct is_binwrapped<binwrap<T>> : std::true_type {};
     template<typename T> constexpr bool is_binwrapped_v = is_binwrapped<T>::value;
     template<typename T> concept explicity_raw = is_binwrapped_v<T> || arithmetic<T>;
 
