@@ -22,7 +22,7 @@ namespace bj {
         in.get(data.begin(), data.end());
     }
 
-    template<debinaryizable_emplace T, typename Alloc>
+    template<debinaryizer_constructable T, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::list<T, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         for (std::uint32_t i{}; i < size; ++i) {

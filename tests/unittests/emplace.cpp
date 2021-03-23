@@ -26,7 +26,7 @@ void putinvec(bj::ibinaryizer &in, std::vector<T> &t) {
     t.emplace_back(50);
 }
 
-template<bj::debinaryizable_emplace T>
+template<bj::debinaryizer_constructable T>
 void putinvec(bj::ibinaryizer &in, std::vector<T> &t) {
     t.emplace_back(in);
     t.emplace_back(100);

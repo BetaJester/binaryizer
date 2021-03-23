@@ -8,7 +8,7 @@
 #include <bj/binaryizer/stl/array.hpp>
 //#include <bj/binaryizer/stl/list.hpp>
 #include "nobin.hpp"
-
+#include "rawable.hpp"
 
 TEST_CASE("expbin does it's stuff", "[overloads,expbin]") {
 
@@ -92,7 +92,7 @@ TEST_CASE("binwrap std::array does it's stuff", "[overloads,binwrap,array]") {
 
 }
 
-TEST_CASE("binwrap c:array does it's stuff", "[overloads,binwrap,carray]") {
+TEST_CASE("binwrap carray does it's stuff", "[overloads,binwrap,carray]") {
 
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
@@ -105,6 +105,41 @@ TEST_CASE("binwrap c:array does it's stuff", "[overloads,binwrap,carray]") {
 
     bw nope1[2]{ bw{19, true, 2.4f}, bw{23, false, 6.9f} };
     bw nope2[2];
+
+    REQUIRE(!compare_arrays(nope1, nope2));
+
+    iobin.out(nope1);
+    iobin.in(nope2);
+
+    REQUIRE(compare_arrays(nope1, nope2));
+
+}
+
+TEST_CASE("explictly_raw does it's stuff", "[overloads,explictly_raw]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    const rawable nope1{ 19, true, 2.4f };
+    rawable nope2;
+
+    REQUIRE(nope1 != nope2);
+
+    iobin.out(nope1);
+
+    iobin.in(nope2);
+
+    REQUIRE(nope1 == nope2);
+
+}
+
+TEST_CASE("explictly_raw carray does it's stuff", "[overloads,explictly_raw,carray]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    rawable nope1[2]{ {19, true, 2.4f}, {23, false, 6.9f} };
+    rawable nope2[2];
 
     REQUIRE(!compare_arrays(nope1, nope2));
 
