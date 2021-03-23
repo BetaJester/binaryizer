@@ -40,13 +40,8 @@ namespace bj {
     template<typename T> concept arithmetic_native_in = arithmetic<T> && forced_endian_in == std::endian::native;
     template<typename T> concept arithmetic_not_raw_in = arithmetic<T> && forced_endian_in != std::endian::native;
 
-    // GCC is making me angry, this fixes an ambiguous call.
-    //template<typename T> concept unknown = arithmetic<T> == false && is_binaryizable_v<T> == false;
-
-    // Easier overloads
     template<typename T> concept not_raw_in = arithmetic_not_raw_in<T> || debinaryizable<T>;
     template<typename T> concept not_raw_out = arithmetic_not_raw_out<T> || binaryizable<T>;
-    //template<typename T> concept norawable = arithmetic<T> or binaryizable<T> or debinaryizable<T>;
 
     // Explicity raw output allowed.
     template<typename T> struct is_binwrapped : std::false_type {};

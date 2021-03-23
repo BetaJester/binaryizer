@@ -62,7 +62,7 @@ add_executable(binaryizer_tests
 	"stl/vector.cpp"
 	"stream.cpp"
 	"test_iobin.hpp"
-	)
+	 "rawable.hpp")
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
