@@ -23,7 +23,7 @@ namespace bj {
         in(c);
     }
 
-    template<debinaryizable_emplace T, typename Container>
+    template<debinaryizer_constructable T, typename Container>
     inline void debinaryize(ibinaryizer &in, std::queue<T, Container> &data) {
         Container &c = data.*(&inner_container<std::queue<T, Container>>::c);
         in(c);

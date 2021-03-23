@@ -32,22 +32,17 @@ namespace bj {
 
         virtual void putraw(const std::byte *const data, const std::size_t size) = 0;
 
-        //template<unknown T>
-        //void put(const T data) {
-        //    puttem(data);
-        //}
+        template<typename T> requires is_expbin_v<T>
+            void put(T &&data) {
+                puttem(*data);
+            }
 
-        template<typename T>
-        void put(const expbin<T> &data) {
-            puttem(*data);
+        template<explicity_raw_out T>
+        void put(const T &data) {
+            puttem(data);
         }
 
-        template<typename T>
-        void put(const binwrap<T> &data) {
-            puttem(*data);
-        }
-
-        template<arithmetic T>
+        template<arithmetic_not_raw_out T>
         void put(const T data) {
             puttem(endian_convert<forced_endian_out>(data));
         }
@@ -57,12 +52,12 @@ namespace bj {
             put<std::uint8_t>(data);
         }
 
-        template<explicity_raw T, std::size_t N>
+        template<explicity_raw_out T, std::size_t N>
         void put(const T(&data)[N]) {
             puttem(data);
         }
 
-        template<noraw_out T, std::size_t N>
+        template<not_raw_out T, std::size_t N>
         void put(T(&data)[N]) {
             put(std::begin(data), std::end(data));
         }

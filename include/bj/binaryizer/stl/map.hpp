@@ -26,7 +26,7 @@ namespace bj {
         }
     }
 
-    template<typename Key, debinaryizable_emplace T, typename Compare, typename Alloc>
+    template<typename Key, debinaryizer_constructable T, typename Compare, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::map<Key, T, Compare, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         for (std::uint32_t i{}; i < size; ++i) {

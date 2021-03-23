@@ -24,7 +24,7 @@ namespace bj {
         in.get(data.begin(), data.end());
     }
 
-    template<debinaryizable_emplace T, typename Alloc>
+    template<debinaryizer_constructable T, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::forward_list<T, Alloc> &data) {
         const std::uint32_t size = in.get<std::uint32_t>();
         auto iter = data.before_begin();

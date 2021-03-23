@@ -17,6 +17,8 @@ namespace bj {
 
     class [[nodiscard]] ibinaryizer {
 
+    protected:
+
         template<typename T>
         void gettem(T &data) {
             getraw(reinterpret_cast<std::byte *>(&data), sizeof(T));
@@ -33,17 +35,17 @@ namespace bj {
         virtual void getraw(std::byte *const data, const std::size_t size) = 0;
 
 
-        template<typename T>
-        void get(expbin<T> &&data) {
+        template<typename T> requires is_expbin_v<T>
+        void get(T &&data) {
             gettem(*data);
         }
 
-        template<typename T>
-        void get(binwrap<T> &data) {
-            gettem(*data);
+        template<explicity_raw_in T>
+        void get(T &data) {
+            gettem(data);
         }
 
-        template<arithmetic T>
+        template<arithmetic_not_raw_in T>
         void get(T &data) {
             gettem(data);
             data = endian_convert<forced_endian_in>(data);
@@ -61,17 +63,17 @@ namespace bj {
             return data;
         }
 
-        template<debinaryizable_emplace T>
+        template<debinaryizer_constructable T>
         [[nodiscard]] T get() {
             return T{ *this };
         }
 
-        template<explicity_raw T, std::size_t N>
+        template<explicity_raw_in T, std::size_t N>
         void get(T(&data)[N]) {
             gettem(data);
         }
 
-        template<noraw_in T, std::size_t N>
+        template<not_raw_in T, std::size_t N>
         void get(T(&data)[N]) {
             get(std::begin(data), std::end(data));
         }

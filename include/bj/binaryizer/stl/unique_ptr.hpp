@@ -28,7 +28,7 @@ namespace bj {
         }
     }
 
-    template<debinaryizable_emplace T, typename Deleter>
+    template<debinaryizer_constructable T, typename Deleter>
     inline void debinaryize(ibinaryizer &in, std::unique_ptr<T, Deleter> &data) {
         const auto is_set = in.get<std::uint8_t>();
         if (is_set) {
