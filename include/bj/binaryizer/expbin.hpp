@@ -20,9 +20,10 @@ namespace bj {
         explicit binwrap(Args &&...args) noexcept(noexcept(T{ std::forward<Args>(args)... }))
             : item{ std::forward<Args>(args)... } {}
 
-        [[nodiscard]] T *operator->() const noexcept { return *item; }
-        [[nodiscard]] const T &operator*() const noexcept { return item; }
+        [[nodiscard]] T *operator->() noexcept { return *item; }
+        [[nodiscard]] const T *operator->() const noexcept { return *item; }
         [[nodiscard]] T &operator*() noexcept { return item; }
+        [[nodiscard]] const T &operator*() const noexcept { return item; }
 
         auto operator<=>(const binwrap &) const = default;
 
@@ -42,9 +43,10 @@ namespace bj {
         expbin &operator=(const expbin &) = delete;
         expbin &operator=(expbin &&) = delete;
 
-        [[nodiscard]] T *operator->() const noexcept { return &item; }
-        [[nodiscard]] const T &operator*() const noexcept { return item; }
+        [[nodiscard]] T *operator->() noexcept { return &item; }
+        [[nodiscard]] const T *operator->() const noexcept { return &item; }
         [[nodiscard]] T &operator*() noexcept { return item; }
+        [[nodiscard]] const T &operator*() const noexcept { return item; }
 
         auto operator<=>(const expbin &) const = default;
     };
