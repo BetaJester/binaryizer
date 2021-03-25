@@ -126,7 +126,7 @@ TEST_CASE("midiint works signed low number", "[midiint,signed,low]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 5);
+    REQUIRE(iobin.stream().str().size() == 1);
 
     iobin.in(bj::midiint(in));
 
@@ -144,7 +144,7 @@ TEST_CASE("midiint works signed medium number", "[midiint,signed,medium]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 5);
+    REQUIRE(iobin.stream().str().size() == 2);
 
     iobin.in(bj::midiint(in));
 
@@ -162,7 +162,7 @@ TEST_CASE("midiint works signed high number", "[midiint,signed,high]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 5);
+    REQUIRE(iobin.stream().str().size() == 3);
 
     iobin.in(bj::midiint(in));
 
@@ -180,7 +180,7 @@ TEST_CASE("midiint works signed huge number", "[midiint,signed,huge]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 10);
+    REQUIRE(iobin.stream().str().size() == 6);
 
     iobin.in(bj::midiint(in));
 
@@ -326,7 +326,7 @@ TEST_CASE("midiint works negative smallest number", "[midiint,negative,smallest]
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 9);
+    REQUIRE(iobin.stream().str().size() == 10);
 
     iobin.in(bj::midiint(in));
 

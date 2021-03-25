@@ -198,7 +198,7 @@ struct thing {
 
 **explicitly_raw**
 
-Lastly, items can be marked as explicitly convertible to raw data with a template overload. This is probably the path of least resistance, and works with minimal if the data is in a container, with no overhead or maintenance.
+Lastly, items can be marked as explicitly convertible to raw data with a template overload. This is probably the path of least resistance, and works with minimal effort if the data is in a container, with no overhead or maintenance.
 
 ```cpp
 struct rawdata {
@@ -240,6 +240,8 @@ It is possible to output numbers in a 7 bit encoded format. I refer to this as m
 Basically, integers are output 7 bits at a time with a flag bit to signify if another 7 bits is needed for more data. This means for example numbers between 0 and 127 are output in a single byte, 0 and 16,383 in two bytes, and so on.
 
 This can save space in the output at a small cost of added computations, and needs to be considered for the use case. For example if you have a large number of 64 bit numbers, likely all to be low, the savings could be great, but if they are all very close to the maximum value for 64 bit (18,446,744,073,709,551,615) they can actually take a byte *more* each to store with midi numbers.
+
+Works best for unsigned integers, also works with signed integers but the another least significant bit is added to keep track of sign, which may (or may not) increase the size by a byte, depending on the data.
 
 ## Other Notes
 
