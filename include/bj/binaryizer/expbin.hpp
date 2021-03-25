@@ -12,16 +12,12 @@ namespace bj {
     template<typename T>
     class [[nodiscard]] binwrap final {
 
-        T item;
-
     public:
 
-        template<typename ...Args>
-        explicit binwrap(Args &&...args) noexcept(noexcept(T{ std::forward<Args>(args)... }))
-            : item{ std::forward<Args>(args)... } {}
+        T item;
 
-        [[nodiscard]] T *operator->() noexcept { return *item; }
-        [[nodiscard]] const T *operator->() const noexcept { return *item; }
+        [[nodiscard]] T *operator->() noexcept { return &item; }
+        [[nodiscard]] const T *operator->() const noexcept { return &item; }
         [[nodiscard]] T &operator*() noexcept { return item; }
         [[nodiscard]] const T &operator*() const noexcept { return item; }
 
