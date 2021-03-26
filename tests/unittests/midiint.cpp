@@ -5,6 +5,7 @@
 #include <catch2/catch.hpp>
 #include "test_iobin.hpp"
 #include <bj/binaryizer/midiint.hpp>
+#include <bj/binaryizer/stl/vector.hpp>
 
 TEST_CASE("midiint works unsigned low number", "[midiint,unsigned,low]") {
 
@@ -329,6 +330,48 @@ TEST_CASE("midiint works negative smallest number", "[midiint,negative,smallest]
     REQUIRE(iobin.stream().str().size() == 10);
 
     iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiwrap basic test", "[midiwrap,basic]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    bj::midiwrap<int> num{ 5 };
+    bj::midiwrap<int> in;
+
+    REQUIRE(in != num);
+
+    iobin.out(num);
+
+    REQUIRE(iobin.stream().str().size() == 1);
+
+    iobin.in(in);
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiwrap container test", "[midiwrap,container]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    using midivector = std::vector<bj::midiwrap<int>>;
+
+    midivector num{ 5, 5, 1, 8, 6 };
+    midivector in;
+
+    REQUIRE(in != num);
+
+    iobin.out(num);
+
+    REQUIRE(iobin.stream().str().size() == 9); // 4 for size, 5 for data.
+
+    iobin.in(in);
 
     REQUIRE(in == num);
 

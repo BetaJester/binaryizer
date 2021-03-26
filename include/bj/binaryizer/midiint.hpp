@@ -130,4 +130,37 @@ namespace bj {
 
     };
 
+    template<typename T>
+    requires (std::is_integral_v<T> && sizeof(T) > 1)
+    class [[nodiscard]] midiwrap final {
+
+    public:
+
+        T item;
+        operator T &() noexcept { return item; }
+        operator const T &() const noexcept { return item; }
+
+        midiwrap() noexcept = default;
+        midiwrap(const midiwrap &t) noexcept : item{ t } {}
+        midiwrap(midiwrap &&t) noexcept : item{ std::forward<T>(t) } {}
+        midiwrap &operator=(const midiwrap &t) noexcept { item = t.item; return *this; }
+        midiwrap &operator=(midiwrap &&t) noexcept { item = std::forward<T>(t.item); return *this; }
+
+        midiwrap(const T &t) noexcept : item{ t } {}
+        midiwrap(T &&t) noexcept : item{ std::forward<T>(t) } {}
+        midiwrap &operator=(const T &t) noexcept { item = t; return *this; }
+        midiwrap &operator=(T &&t) noexcept { item = std::forward<T>(t); return *this; }
+
+        template<typename Archive>
+        void binaryize(Archive &out) const {
+            out(midiint(item));
+        }
+
+        template<typename Archive>
+        void debinaryize(Archive &in) {
+            in(midiint(item));
+        }
+
+    };
+
 } // namespace bj.
