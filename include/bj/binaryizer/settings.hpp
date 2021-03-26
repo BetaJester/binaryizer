@@ -34,4 +34,8 @@ namespace bj {
     constexpr std::endian forced_endian_in = std::endian::native;
 #endif
 
+#if defined(BJ_MIDIINT_CONTAINERS)
+
+#endif
+
 } // namespace bj.

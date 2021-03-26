@@ -7,7 +7,7 @@
 #include <bit>
 #include <type_traits>
 #include <cstdint>
-#include "endian_settings.hpp"
+#include "settings.hpp"
 #include "bit_cast.hpp"
 
 namespace bj {

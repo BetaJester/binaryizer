@@ -5,7 +5,7 @@
 #pragma once
 
 #include <type_traits>
-#include "endian_settings.hpp"
+#include "settings.hpp"
 #include "expbin.hpp"
 
 namespace bj {

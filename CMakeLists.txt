@@ -23,7 +23,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/binaryizer.hpp"
 	"include/bj/binaryizer/bit_cast.hpp"
 	"include/bj/binaryizer/endian.hpp"
-	"include/bj/binaryizer/endian_settings.hpp"
+	"include/bj/binaryizer/settings.hpp"
 	"include/bj/binaryizer/expbin.hpp"
 	"include/bj/binaryizer/ibinaryizer.hpp"
 	"include/bj/binaryizer/iostream_binaryizer.hpp"
