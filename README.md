@@ -321,6 +321,48 @@ struct thing {
 };
 ```
 
+**Performance**
+
+A short benchmark I smashed together (included in the code) shows the performance penalties that can be expected from using `midiint`, using `std::stringstream` and `std::fstream` and different size numbers. An optimization is in the works.
+
+```
+Run on (12 X 3600 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x6)
+  L1 Instruction 32 KiB (x6)
+  L2 Unified 512 KiB (x6)
+  L3 Unified 16384 KiB (x2)
+---------------------------------------------------------------------------
+Benchmark                                 Time             CPU   Iterations
+---------------------------------------------------------------------------
+BM_stringstream_uint_low               80.8 ns         80.2 ns      8960000
+BM_stringstream_midi_uint_low          74.4 ns         75.0 ns      8960000
+BM_stringstream_uint_medium            81.3 ns         82.0 ns      8960000
+BM_stringstream_midi_uint_medium        200 ns          200 ns      3200000
+BM_stringstream_uint_huge              80.5 ns         80.2 ns      8960000
+BM_stringstream_midi_uint_huge          330 ns          330 ns      2133333
+BM_fstream_uint_low                    91.3 ns         90.7 ns      8960000
+BM_fstream_midi_uint_low               79.5 ns         80.2 ns      8960000
+BM_fstream_uint_medium                 81.9 ns         82.0 ns      8960000
+BM_fstream_midi_uint_medium             174 ns          173 ns      4072727
+BM_fstream_uint_huge                   83.2 ns         83.7 ns      7466667
+BM_fstream_midi_uint_huge               257 ns          255 ns      2635294
+BM_stringstream_int_low                84.1 ns         83.7 ns      8960000
+BM_stringstream_midi_int_low           79.0 ns         78.5 ns      8960000
+BM_stringstream_int_medium             83.7 ns         83.7 ns      8960000
+BM_stringstream_midi_int_medium         204 ns          204 ns      3446154
+BM_stringstream_int_huge               82.2 ns         82.0 ns      8960000
+BM_stringstream_midi_int_huge           261 ns          261 ns      2635294
+BM_fstream_int_low                     81.9 ns         82.0 ns      8960000
+BM_fstream_midi_int_low                85.0 ns         83.7 ns      8960000
+BM_fstream_int_medium                  82.5 ns         82.0 ns      8960000
+BM_fstream_midi_int_medium              177 ns          176 ns      3733333
+BM_fstream_int_huge                    83.3 ns         83.7 ns      8960000
+BM_fstream_midi_int_huge                224 ns          223 ns      2800000
+```
+
+
+
 ## Other Notes
 
 * Because the underlying size of `bool` isn't defined by the standard, it is always done as `std::uint8_t`, unless part of raw output when it is whatever your compiler uses.
