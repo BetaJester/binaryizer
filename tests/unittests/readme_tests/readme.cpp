@@ -7,6 +7,7 @@
 #include <sstream>
 #include <catch2/catch.hpp>
 #include <bj/binaryizer/iostream_binaryizer.hpp>
+#include <bj/binaryizer/midiint.hpp>
 
 namespace readme_internal {
     struct thing {
@@ -179,6 +180,81 @@ namespace readme_explicitly_raw {
     };
 } // namespace readme_explicitly_raw.
 
+namespace readme_midiint_basic {
+
+    struct thing {
+        int a, b, c;
+
+        template<typename Archive>
+        void binaryize(Archive &archive) const {
+            archive(bj::midiint(a), bj::midiint(b), bj::midiint(c));
+        }
+
+        template<typename Archive>
+        void debinaryize(Archive &archive) {
+            archive(bj::midiint(a), bj::midiint(b), bj::midiint(c));
+        }
+
+        // Not in readme.
+        auto operator<=>(const thing &) const = default;
+    };
+
+} // namespace readme_midiint_basic.
+
+namespace readme_midiint_wrapped {
+
+    struct thing {
+        bj::midiint<int> a, b, c;
+
+        template<typename Archive>
+        void binaryize(Archive &archive) const {
+            archive(a, b, c);
+        }
+
+        template<typename Archive>
+        void debinaryize(Archive &archive) {
+            archive(a, b, c);
+        }
+
+        // Not in readme.
+        auto operator<=>(const thing &) const = default;
+    };
+
+} // namespace readme_midiint_wrapped.
+
+namespace readme_midiint_explicit {
+
+    struct thing {
+        int a, b, c;
+        int d;
+
+        template<typename Archive>
+        void binaryize(Archive &archive) const {
+            archive(bj::midiint<std::uint32_t>(2), a, b, c, d);
+        }
+
+        template<typename Archive>
+        void debinaryize(Archive &archive) {
+            const auto version = archive.template get<bj::midiint<std::uint32_t>>();
+            switch (version.item) {
+            case 1:
+                archive(a, b, c);
+                d = 5;
+                break;
+            case 2:
+                archive(a, b, c, d);
+                break;
+            default:
+                throw std::runtime_error("Unknown version for 'thing' in binary");
+            }
+        }
+
+        // Not in readme.
+        auto operator<=>(const thing &) const = default;
+    };
+
+} // namespace readme_midiint_explicit.
+
 // Save a couple of runtime tests.
 static_assert(bj::is_binaryizable_v<readme_internal::thing>);
 static_assert(bj::is_binaryizable_v<readme_external::thing>);
@@ -300,6 +376,51 @@ TEST_CASE("readme explicitly_raw methods", "[readme,explicitly_raw]") {
 
     readme_explicitly_raw::thing thing1{ .data{.x = 7, .y = 8, .z = 9}, .a = 1, .b = 3, .c = 5 };
     readme_explicitly_raw::thing thing2{ .data{.x = 0, .y = 10, .z = 11}, .a = 2, .b = 4, .c = 6 };
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    REQUIRE(thing1 != thing2);
+    obin(thing1);
+    ibin(thing2);
+    REQUIRE(thing1 == thing2);
+}
+
+TEST_CASE("readme midiint basic", "[readme,midiint,basic]") {
+
+    readme_midiint_basic::thing thing1{ .a = 1, .b = 3, .c = 5 };
+    readme_midiint_basic::thing thing2{ .a = 2, .b = 4, .c = 6 };
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    REQUIRE(thing1 != thing2);
+    obin(thing1);
+    ibin(thing2);
+    REQUIRE(thing1 == thing2);
+}
+
+TEST_CASE("readme midiint wrapped", "[readme,midiint,wrapped]") {
+
+    readme_midiint_wrapped::thing thing1{ .a = 1, .b = 3, .c = 5 };
+    readme_midiint_wrapped::thing thing2{ .a = 2, .b = 4, .c = 6 };
+
+    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    bj::ibinaryizer &ibin = iobin;
+    bj::obinaryizer &obin = iobin;
+
+    REQUIRE(thing1 != thing2);
+    obin(thing1);
+    ibin(thing2);
+    REQUIRE(thing1 == thing2);
+}
+
+TEST_CASE("readme midiint explicit", "[readme,midiint,explicit]") {
+
+    readme_midiint_explicit::thing thing1{ .a = 1, .b = 3, .c = 5, .d = 7 };
+    readme_midiint_explicit::thing thing2{ .a = 2, .b = 4, .c = 6, .d = 8 };
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
     bj::ibinaryizer &ibin = iobin;

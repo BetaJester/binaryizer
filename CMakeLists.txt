@@ -21,8 +21,9 @@ add_library(bj::binaryizer ALIAS binaryizer)
 target_include_directories(binaryizer INTERFACE "include")
 target_sources(binaryizer INTERFACE 
 	"include/bj/binaryizer/binaryizer.hpp"
+	"include/bj/binaryizer/bit_cast.hpp"
 	"include/bj/binaryizer/endian.hpp"
-	"include/bj/binaryizer/endian_settings.hpp"
+	"include/bj/binaryizer/settings.hpp"
 	"include/bj/binaryizer/expbin.hpp"
 	"include/bj/binaryizer/ibinaryizer.hpp"
 	"include/bj/binaryizer/iostream_binaryizer.hpp"
@@ -42,6 +43,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/priority_queue.hpp"
 	"include/bj/binaryizer/stl/queue.hpp"
 	"include/bj/binaryizer/stl/set.hpp"
+	"include/bj/binaryizer/stl/size.hpp"
 	"include/bj/binaryizer/stl/stack.hpp"
 	"include/bj/binaryizer/stl/tuple.hpp"
 	"include/bj/binaryizer/stl/unique_ptr.hpp"

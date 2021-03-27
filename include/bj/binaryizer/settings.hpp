@@ -34,4 +34,16 @@ namespace bj {
     constexpr std::endian forced_endian_in = std::endian::native;
 #endif
 
+#if defined(BJ_32BIT_CONTAINER_SIZE)
+    constexpr bool containers_32bit_size = true;
+#else
+    constexpr bool containers_32bit_size = false;
+#endif
+
+#if defined(BJ_MIDIINT_CONTAINER_SIZE)
+    constexpr bool containers_midiint_size = true;
+#else
+    constexpr bool containers_midiint_size = false;
+#endif
+
 } // namespace bj.

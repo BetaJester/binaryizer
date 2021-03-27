@@ -60,8 +60,7 @@
       "cmakeCommandArgs": "-DBINARYIZER_BUILD_TESTS=ON",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x86" ],
-      "variables": []
+      "inheritEnvironments": [ "msvc_x86" ]
     }
   ]
 }

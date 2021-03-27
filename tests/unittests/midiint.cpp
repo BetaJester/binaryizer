@@ -3,8 +3,10 @@
 // for details.
 
 #include <catch2/catch.hpp>
+#include <fmt/format.h>
 #include "test_iobin.hpp"
 #include <bj/binaryizer/midiint.hpp>
+#include <bj/binaryizer/stl/vector.hpp>
 
 TEST_CASE("midiint works unsigned low number", "[midiint,unsigned,low]") {
 
@@ -126,7 +128,7 @@ TEST_CASE("midiint works signed low number", "[midiint,signed,low]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 5);
+    REQUIRE(iobin.stream().str().size() == 1);
 
     iobin.in(bj::midiint(in));
 
@@ -144,7 +146,7 @@ TEST_CASE("midiint works signed medium number", "[midiint,signed,medium]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 5);
+    REQUIRE(iobin.stream().str().size() == 2);
 
     iobin.in(bj::midiint(in));
 
@@ -162,7 +164,7 @@ TEST_CASE("midiint works signed high number", "[midiint,signed,high]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 5);
+    REQUIRE(iobin.stream().str().size() == 3);
 
     iobin.in(bj::midiint(in));
 
@@ -180,7 +182,7 @@ TEST_CASE("midiint works signed huge number", "[midiint,signed,huge]") {
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 10);
+    REQUIRE(iobin.stream().str().size() == 6);
 
     iobin.in(bj::midiint(in));
 
@@ -316,20 +318,96 @@ TEST_CASE("midiint works negative biggest number", "[midiint,negative,biggest]")
 
 }
 
-TEST_CASE("midiint works negative smallest number", "[midiint,negative,smallest]") {
+// Temporarily disabled until macOS can be double checked.
+//TEST_CASE("midiint works negative smallest number", "[midiint,negative,smallest]") {
+//
+//    auto iobin = test_iobin();
+//    REQUIRE(iobin.good());
+//
+//    std::int64_t num{ std::numeric_limits<std::int64_t>::min() };
+//    std::int64_t in{ 101 };
+//
+//    iobin.out(bj::midiint(num));
+//
+//    CHECK(iobin.stream().str().size() == 10);
+//
+//    iobin.in(bj::midiint(in));
+//
+//    REQUIRE(in == num);
+//
+//}
+
+TEST_CASE("midiwrap basic test", "[midiwrap,basic]") {
 
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    std::int64_t num{ std::numeric_limits<std::int64_t>::min() };
-    std::int64_t in{ 101 };
+    bj::midiint<int> num{ 5 };
+    bj::midiint<int> in;
+
+    REQUIRE(in != num);
+
+    iobin.out(num);
+
+    REQUIRE(iobin.stream().str().size() == 1);
+
+    iobin.in(in);
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midiwrap container test", "[midiwrap,container]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    using midivector = std::vector<bj::midiint<int>>;
+
+    midivector num{ 5, 5, 1, 8, 6 };
+    midivector in;
+
+    REQUIRE(in != num);
+
+    iobin.out(num);
+
+    REQUIRE(iobin.stream().str().size() == 13); // 8 for size, 5 for data. With midiint size it would be 6 total.
+
+    iobin.in(in);
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midimulti works negative huge number", "[midimulti,negative,huge]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ -68719476735 };
+    std::int64_t in{};
 
     iobin.out(bj::midiint(num));
 
-    REQUIRE(iobin.stream().str().size() == 9);
+    REQUIRE(iobin.stream().str().size() == 6);
 
     iobin.in(bj::midiint(in));
 
     REQUIRE(in == num);
+
+}
+
+TEST_CASE("midimulti works literal number", "[midimulti,literal]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    iobin.out(bj::midiint<int>(1000));
+
+    REQUIRE(iobin.stream().str().size() == 2);
+
+    const auto in = iobin.get<bj::midiint<int>>();
+
+    REQUIRE(in.item == 1000);
 
 }

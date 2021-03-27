@@ -14,7 +14,7 @@ namespace bj {
     template<std::size_t N>
     inline void debinaryize(ibinaryizer &in, std::bitset<N> &data) {
         // Gets 64bit chunks, most significant first.
-        std::uint64_t input;
+        std::uint64_t input{};
         constexpr std::size_t input_count = N / 64u;
         for (std::size_t i{}; i < input_count; ++i) {
             in(midiint(input));
