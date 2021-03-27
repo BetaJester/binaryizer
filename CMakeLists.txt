@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.18)
 project(binaryizer)
 
 option(BINARYIZER_BUILD_TESTS "Build tests for binaryizer" OFF)
+option(BINARYIZER_BUILD_BENCHMARKS "Build benchmarks for binaryizer" OFF)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -63,4 +64,8 @@ if (${BINARYIZER_BUILD_TESTS})
 	enable_testing()
 	add_subdirectory("tests/unittests")
 	add_subdirectory("tests/standalones")
+endif()
+
+if (${BINARYIZER_BUILD_BENCHMARKS})
+	add_subdirectory("benchmarks")
 endif()
