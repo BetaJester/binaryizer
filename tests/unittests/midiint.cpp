@@ -340,8 +340,8 @@ TEST_CASE("midiwrap basic test", "[midiwrap,basic]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    bj::midiwrap<int> num{ 5 };
-    bj::midiwrap<int> in;
+    bj::midiint<int> num{ 5 };
+    bj::midiint<int> in;
 
     REQUIRE(in != num);
 
@@ -360,7 +360,7 @@ TEST_CASE("midiwrap container test", "[midiwrap,container]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    using midivector = std::vector<bj::midiwrap<int>>;
+    using midivector = std::vector<bj::midiint<int>>;
 
     midivector num{ 5, 5, 1, 8, 6 };
     midivector in;
@@ -374,5 +374,38 @@ TEST_CASE("midiwrap container test", "[midiwrap,container]") {
     iobin.in(in);
 
     REQUIRE(in == num);
+
+}
+
+TEST_CASE("midimulti works negative huge number", "[midimulti,negative,huge]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    std::int64_t num{ -68719476735 };
+    std::int64_t in{};
+
+    iobin.out(bj::midiint(num));
+
+    REQUIRE(iobin.stream().str().size() == 6);
+
+    iobin.in(bj::midiint(in));
+
+    REQUIRE(in == num);
+
+}
+
+TEST_CASE("midimulti works literal number", "[midimulti,literal]") {
+
+    auto iobin = test_iobin();
+    REQUIRE(iobin.good());
+
+    iobin.out(bj::midiint<int>(1000));
+
+    REQUIRE(iobin.stream().str().size() == 2);
+
+    const auto in = iobin.get<bj::midiint<int>>();
+
+    REQUIRE(in.item == 1000);
 
 }

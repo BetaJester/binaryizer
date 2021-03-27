@@ -68,6 +68,13 @@ namespace bj {
             return T{ *this };
         }
 
+        template<debinaryizable T>
+        [[nodiscard]] T get() {
+            T t;
+            get(t);
+            return t;
+        }
+
         template<explicity_raw_in T, std::size_t N>
         void get(T(&data)[N]) {
             gettem(data);

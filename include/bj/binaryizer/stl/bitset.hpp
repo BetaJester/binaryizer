@@ -14,7 +14,7 @@ namespace bj {
     template<std::size_t N>
     inline void debinaryize(ibinaryizer &in, std::bitset<N> &data) {
         // Gets 64bit chunks, most significant first.
-        std::uint64_t input;
+        std::uint64_t input{};
         constexpr std::size_t input_count = N / 64u;
         for (std::size_t i{}; i < input_count; ++i) {
             in(midiint(input));
@@ -33,7 +33,7 @@ namespace bj {
             const auto shifted = data >> static_cast<std::size_t>(i * 64u);
             const auto masked = shifted & mask;
             const auto output_value = masked.to_ullong();
-            out(midiint(output_value));
+            out(midiint<decltype(output_value)>(output_value));
         }
     }
 
