@@ -21,12 +21,14 @@ jobs:
           - os: ubuntu-20.04
             CC_COMPILER: /usr/bin/clang-10
             CXX_COMPILER: /usr/bin/clang++-10
+            CTEST_OUTPUT_ON_FAILURE: 1
 
           - os: windows-2019
 
           - os: macos-10.15
             CC_COMPILER: gcc-10
             CXX_COMPILER: g++-10
+            CTEST_OUTPUT_ON_FAILURE: 1
 
     steps:
     - uses: actions/checkout@v2
