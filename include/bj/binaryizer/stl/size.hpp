@@ -31,10 +31,14 @@ namespace bj::impl {
             if constexpr (bj::containers_32bit_size) {
                 return in.get<std::uint32_t>();
             } else {
+                #if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
                 #pragma GCC diagnostic push
                 #pragma GCC diagnostic ignored "-Wuseless-cast"
+                #endif
                 return static_cast<std::size_t>(in.get<std::uint64_t>());
+                #if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
                 #pragma GCC diagnostic pop
+                #endif
             }
         } else {
             if constexpr (bj::containers_32bit_size) {
