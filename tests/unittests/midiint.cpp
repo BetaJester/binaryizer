@@ -3,6 +3,7 @@
 // for details.
 
 #include <catch2/catch.hpp>
+#include <fmt/format.h>
 #include "test_iobin.hpp"
 #include <bj/binaryizer/midiint.hpp>
 #include <bj/binaryizer/stl/vector.hpp>
@@ -327,6 +328,9 @@ TEST_CASE("midiint works negative smallest number", "[midiint,negative,smallest]
 
     iobin.out(bj::midiint(num));
 
+    const auto strsize = iobin.stream().str().size();
+
+    INFO(fmt::format("strsize is {}", strsize));
     REQUIRE(iobin.stream().str().size() == 10);
 
     iobin.in(bj::midiint(in));
