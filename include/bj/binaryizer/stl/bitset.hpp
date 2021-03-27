@@ -33,7 +33,7 @@ namespace bj {
             const auto shifted = data >> static_cast<std::size_t>(i * 64u);
             const auto masked = shifted & mask;
             const auto output_value = masked.to_ullong();
-            out(midiint<decltype(output_value)>(output_value));
+            out(midiint(output_value));
         }
     }
 

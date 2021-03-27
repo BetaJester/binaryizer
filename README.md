@@ -15,6 +15,8 @@ Header only C++ serialization library with an annoying to type name.
 * [Versioning your binaries](#versioning-your-binaries)
 * [Endian Conversion](#endian-conversion)
 * [Raw Output](#raw-output)
+* [STL Support](#stl-support)
+* [Midi Numbers](#midi-numbers)
 * [Other Notes](#other-notes)
 * [TODO](#todo)
 
@@ -242,6 +244,82 @@ Basically, integers are output 7 bits at a time with a flag bit to signify if an
 This can save space in the output at a small cost of added computations, and needs to be considered for the use case. For example if you have a large number of 64 bit numbers, likely all to be low, the savings could be great, but if they are all very close to the maximum value for 64 bit (18,446,744,073,709,551,615) they can actually take a byte *more* each to store with midi numbers.
 
 Works best for unsigned integers, also works with signed integers but the another least significant bit is added to keep track of sign, which may (or may not) increase the size by a byte, depending on the data.
+
+**Basic Usage**
+
+A little messy for a whole class, very useful if only a single member is converted.
+
+```cpp
+#include <bj/binaryizer/midiint.hpp>
+
+struct thing {
+    int a, b, c;
+
+    template<typename Archive>
+    void binaryize(Archive &archive) const {
+        archive(bj::midiint(a), bj::midiint(b), bj::midiint(c));
+    }
+
+    template<typename Archive>
+    void debinaryize(Archive &archive) {
+        archive(bj::midiint(a), bj::midiint(b), bj::midiint(c));
+    }
+};
+```
+
+**Wrapped**
+
+Simpler to read in most cases, great if stored in a container. Has the downside of number item is now a class member instead of directly useable.
+
+```cpp
+#include <bj/binaryizer/midiint.hpp>
+
+struct thing {
+    bj::midiint<int> a, b, c;
+
+    template<typename Archive>
+    void binaryize(Archive &archive) const {
+        archive(a, b, c);
+    }
+
+    template<typename Archive>
+    void debinaryize(Archive &archive) {
+        archive(a, b, c);
+    }
+};
+```
+
+**Explicitly**
+
+Of course, it is possible to explicitly store and retrieve numbers in the midi encoded format. Here is an example based on the versioning example earlier.
+
+```cpp
+struct thing {
+    int a, b, c;
+    int d;
+
+    template<typename Archive>
+    void binaryize(Archive &archive) const {
+        archive(bj::midiint<std::uint32_t>(2), a, b, c, d);
+    }
+
+    template<typename Archive>
+    void debinaryize(Archive &archive) {
+        const auto version = archive.template get<bj::midiint<std::uint32_t>>();
+        switch (version.item) {
+        case 1:
+            archive(a, b, c);
+            d = 5;
+            break;
+        case 2:
+            archive(a, b, c, d);
+            break;
+        default:
+            throw std::runtime_error("Unknown version for 'thing' in binary");
+        }
+    }
+};
+```
 
 ## Other Notes
 

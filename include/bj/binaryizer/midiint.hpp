@@ -193,6 +193,11 @@ namespace bj {
     // Deduction guide.
     template<typename T>
     requires (std::is_integral_v<std::decay_t<T>> && sizeof(std::decay_t<T>) > 1)
-    midiint(T)->midiint<T &>;
+    midiint(T&)->midiint<T &>;
+
+    // Deduction guide.
+    template<typename T>
+    requires (std::is_integral_v<std::decay_t<T>> && sizeof(std::decay_t<T>) > 1)
+    midiint(T&&)->midiint<const T>;
 
 } // namespace bj.
