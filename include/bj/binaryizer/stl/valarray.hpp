@@ -6,18 +6,19 @@
 
 #include <valarray>
 #include "../binaryizer.hpp"
+#include "size.hpp"
 
 namespace bj {
 
     template<typename T>
     inline void binaryize(obinaryizer &out, const std::valarray<T> &data) {
-        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        impl::put_size(out, data.size());
         out.put(std::begin(data), std::end(data));
     }
 
     template<typename T>
     inline void debinaryize(ibinaryizer &in, std::valarray<T> &data) {
-        const std::uint32_t size = in.get<std::uint32_t>();
+        const auto size = impl::get_size(in);
         data.resize(size);
         in.get(std::begin(data), std::end(data));
     }

@@ -43,6 +43,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/priority_queue.hpp"
 	"include/bj/binaryizer/stl/queue.hpp"
 	"include/bj/binaryizer/stl/set.hpp"
+	"include/bj/binaryizer/stl/size.hpp"
 	"include/bj/binaryizer/stl/stack.hpp"
 	"include/bj/binaryizer/stl/tuple.hpp"
 	"include/bj/binaryizer/stl/unique_ptr.hpp"

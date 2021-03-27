@@ -6,18 +6,19 @@
 
 #include <string>
 #include "../binaryizer.hpp"
+#include "size.hpp"
 
 namespace bj {
 
     template<explicity_raw_out T, typename Traits, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::basic_string<T, Traits, Alloc> &data) {
-        out.put<std::uint32_t>(static_cast<std::uint32_t>(data.size()));
+        impl::put_size(out, data.size());
         out.putraw(reinterpret_cast<const std::byte *>(data.data()), data.size() * sizeof(T));
     }
 
     template<explicity_raw_in T, typename Traits, typename Alloc>
     inline void debinaryize(ibinaryizer &in, std::basic_string<T, Traits, Alloc> &data) {
-        const std::uint32_t size = in.get<std::uint32_t>();
+        const auto size = impl::get_size(in);
         data.resize(size);
         in.getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
     }

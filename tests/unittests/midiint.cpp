@@ -369,7 +369,7 @@ TEST_CASE("midiwrap container test", "[midiwrap,container]") {
 
     iobin.out(num);
 
-    REQUIRE(iobin.stream().str().size() == 9); // 4 for size, 5 for data.
+    REQUIRE(iobin.stream().str().size() == 13); // 8 for size, 5 for data. With midiint size it would be 6 total.
 
     iobin.in(in);
 
