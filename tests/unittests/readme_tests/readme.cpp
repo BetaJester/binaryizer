@@ -8,6 +8,7 @@
 #include <catch2/catch.hpp>
 #include <bj/binaryizer/iostream_binaryizer.hpp>
 #include <bj/binaryizer/midiint.hpp>
+#include <bj/binaryizer/expraw.hpp>
 
 namespace readme_internal {
     struct thing {
@@ -98,7 +99,7 @@ namespace readme_versioning {
 
 } // namespace readme_versioning.
 
-namespace readme_expbin {
+namespace readme_expraw {
     struct rawdata {
         int x, y, z;
 
@@ -111,19 +112,19 @@ namespace readme_expbin {
         int a, b, c;
 
         void binaryize(bj::obinaryizer &out) const {
-            out(bj::expbin(data), a, b, c);
+            out(bj::expraw(data), a, b, c);
         }
 
         void debinaryize(bj::ibinaryizer &in) {
-            in(bj::expbin(data), a, b, c);
+            in(bj::expraw(data), a, b, c);
         }
 
         // Not in readme.
         auto operator<=>(const thing &) const = default;
     };
-} // namespace readme_expbin.
+} // namespace readme_expraw.
 
-namespace readme_binwrap {
+namespace readme_expraw_wrap {
     struct rawdata {
         int x, y, z;
 
@@ -132,7 +133,7 @@ namespace readme_binwrap {
     };
 
     struct thing {
-        bj::expbin<rawdata> data;
+        bj::expraw<rawdata> data;
         int a, b, c;
 
         void binaryize(bj::obinaryizer &out) const {
@@ -146,7 +147,7 @@ namespace readme_binwrap {
         // Not in readme.
         auto operator<=>(const thing &) const = default;
     };
-} // namespace readme_binwrap.
+} // namespace readme_expraw_wrap.
 
 namespace readme_explicitly_raw {
     struct rawdata {
@@ -201,7 +202,7 @@ namespace readme_midiint_basic {
 
 } // namespace readme_midiint_basic.
 
-namespace readme_midiint_wrapped {
+namespace readme_midiint_wrap {
 
     struct thing {
         bj::midiint<int> a, b, c;
@@ -220,7 +221,7 @@ namespace readme_midiint_wrapped {
         auto operator<=>(const thing &) const = default;
     };
 
-} // namespace readme_midiint_wrapped.
+} // namespace readme_midiint_wrap.
 
 namespace readme_midiint_explicit {
 
@@ -342,10 +343,10 @@ TEST_CASE("readme constructing methods", "[readme,constructing]") {
 
 }
 
-TEST_CASE("readme expbin methods", "[readme,expbin]") {
+TEST_CASE("readme expbin methods", "[readme,expraw]") {
 
-    readme_expbin::thing thing1{ .data{.x = 7, .y = 8, .z = 9}, .a = 1, .b = 3, .c = 5 };
-    readme_expbin::thing thing2{ .data{.x = 0, .y = 10, .z = 11}, .a = 2, .b = 4, .c = 6 };
+    readme_expraw::thing thing1{ .data{.x = 7, .y = 8, .z = 9}, .a = 1, .b = 3, .c = 5 };
+    readme_expraw::thing thing2{ .data{.x = 0, .y = 10, .z = 11}, .a = 2, .b = 4, .c = 6 };
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
     bj::ibinaryizer &ibin = iobin;
@@ -357,10 +358,10 @@ TEST_CASE("readme expbin methods", "[readme,expbin]") {
     REQUIRE(thing1 == thing2);
 }
 
-TEST_CASE("readme binwrap methods", "[readme,binwrap]") {
+TEST_CASE("readme binwrap methods", "[readme,expraw,wrap]") {
 
-    readme_binwrap::thing thing1{ .data = { .item = {.x = 7, .y = 8, .z = 9} },  .a = 1, .b = 3, .c = 5 };
-    readme_binwrap::thing thing2;
+    readme_expraw_wrap::thing thing1{ .data = { 7, 8, 9},  .a = 1, .b = 3, .c = 5 };
+    readme_expraw_wrap::thing thing2;
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
     bj::ibinaryizer &ibin = iobin;
@@ -402,10 +403,10 @@ TEST_CASE("readme midiint basic", "[readme,midiint,basic]") {
     REQUIRE(thing1 == thing2);
 }
 
-TEST_CASE("readme midiint wrapped", "[readme,midiint,wrapped]") {
+TEST_CASE("readme midiint wrapped", "[readme,midiint,wrap]") {
 
-    readme_midiint_wrapped::thing thing1{ .a = 1, .b = 3, .c = 5 };
-    readme_midiint_wrapped::thing thing2{ .a = 2, .b = 4, .c = 6 };
+    readme_midiint_wrap::thing thing1{ .a = 1, .b = 3, .c = 5 };
+    readme_midiint_wrap::thing thing2{ .a = 2, .b = 4, .c = 6 };
 
     bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
     bj::ibinaryizer &ibin = iobin;

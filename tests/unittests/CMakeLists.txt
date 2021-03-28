@@ -31,7 +31,7 @@ add_executable(binaryizer_tests
 	"emplace.cpp"
 	"emplacey.hpp" 
 	"endian.cpp"
-	"expbin.cpp"
+	"expraw.cpp"
 	"external.cpp"
 	"exttester.hpp"
 	"main.cpp"

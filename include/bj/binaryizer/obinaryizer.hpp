@@ -32,11 +32,6 @@ namespace bj {
 
         virtual void putraw(const std::byte *const data, const std::size_t size) = 0;
 
-        //template<typename T> requires is_expbin_v<T>
-        //    void put(T &&data) {
-        //        puttem(*data);
-        //    }
-
         template<explicity_raw_out T>
         void put(const T &data) {
             puttem(data);
