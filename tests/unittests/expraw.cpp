@@ -6,11 +6,11 @@
 #include "test_iobin.hpp"
 #include "compare_arrays.hpp"
 #include <bj/binaryizer/stl/array.hpp>
-//#include <bj/binaryizer/stl/list.hpp>
+#include <bj/binaryizer/expraw.hpp>
 #include "nobin.hpp"
 #include "rawable.hpp"
 
-TEST_CASE("expbin does it's stuff", "[overloads,expbin]") {
+TEST_CASE("expraw does it's stuff", "[overloads,expraw]") {
 
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
@@ -20,15 +20,15 @@ TEST_CASE("expbin does it's stuff", "[overloads,expbin]") {
 
     REQUIRE(nope1 != nope2);
 
-    iobin.out(bj::expbin(nope1));
+    iobin.out(bj::expraw{ nope1 });
 
-    iobin.in(bj::expbin(nope2));
+    iobin.in(bj::expraw{ nope2 });
 
     REQUIRE(nope1 == nope2);
 
 }
 
-TEST_CASE("expbin array does it's stuff", "[overloads,expbin,carray]") {
+TEST_CASE("expraw array does it's stuff", "[overloads,expraw,carray]") {
 
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
@@ -38,9 +38,9 @@ TEST_CASE("expbin array does it's stuff", "[overloads,expbin,carray]") {
 
     REQUIRE(!compare_arrays(nope1, nope2));
 
-    iobin.out(bj::expbin(nope1));
+    iobin.out(bj::expraw(nope1));
 
-    iobin.in(bj::expbin(nope2));
+    iobin.in(bj::expraw(nope2));
 
     REQUIRE(compare_arrays(nope1, nope2));
 
@@ -54,8 +54,8 @@ TEST_CASE("binwrap does it's stuff", "[overloads,binwrap]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    const bj::binwrap<nobin> nope1{ 19, true, 2.4f };
-    bj::binwrap<nobin> nope2;
+    const bj::expraw<nobin> nope1{ 19, true, 2.4f };
+    bj::expraw<nobin> nope2;
 
     REQUIRE(*nope1 != *nope2);
 
@@ -72,7 +72,7 @@ TEST_CASE("binwrap std::array does it's stuff", "[overloads,binwrap,array]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    using bw = bj::binwrap<nobin>;
+    using bw = bj::expraw<nobin>;
 
     std::array<bw, 2> nope1{ bw{19, true, 2.4f}, bw{23, false, 6.9f} };
     std::array<bw, 2> nope2;
@@ -97,7 +97,7 @@ TEST_CASE("binwrap carray does it's stuff", "[overloads,binwrap,carray]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    using bw = bj::binwrap<nobin>;
+    using bw = bj::expraw<nobin>;
 
     // Should NOT work.
     // nobin nope3[3];

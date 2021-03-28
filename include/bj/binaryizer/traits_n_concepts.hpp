@@ -6,7 +6,6 @@
 
 #include <type_traits>
 #include "settings.hpp"
-#include "expbin.hpp"
 
 namespace bj {
 
@@ -44,17 +43,11 @@ namespace bj {
     template<typename T> concept not_raw_out = arithmetic_not_raw_out<T> || binaryizable<T>;
 
     // Explicity raw output allowed.
-    template<typename T> struct is_binwrapped : std::false_type {};
-    template<typename T> struct is_binwrapped<binwrap<T>> : std::true_type {};
-    template<typename T> constexpr bool is_binwrapped_v = is_binwrapped<T>::value;
-    template<typename T> struct is_expbin : std::false_type {};
-    template<typename T> struct is_expbin<expbin<T>> : std::true_type {};
-    template<typename T> constexpr bool is_expbin_v = is_expbin<T>::value;
     template<typename T> struct explicitly_raw : std::false_type {};
     template<typename T> constexpr bool explicitly_raw_v = explicitly_raw<T>::value;
     
-    template<typename T> concept explicity_raw_in = is_binwrapped_v<T> || arithmetic_native_in<T> || explicitly_raw_v<T>;
-    template<typename T> concept explicity_raw_out = is_binwrapped_v<T> || arithmetic_native_out<T> || explicitly_raw_v<T>;
+    template<typename T> concept explicity_raw_in = arithmetic_native_in<T> || explicitly_raw_v<T>;
+    template<typename T> concept explicity_raw_out = arithmetic_native_out<T> || explicitly_raw_v<T>;
 
 
 } // namespace bj.
