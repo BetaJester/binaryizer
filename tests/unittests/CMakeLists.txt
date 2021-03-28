@@ -25,6 +25,7 @@ include(CTest)
 FetchContent_MakeAvailable(pwropt Catch2)
 
 add_executable(binaryizer_tests 
+	"buffered.cpp"
 	"carray.cpp"
 	"compare_arrays.hpp"
 	"county.hpp"
