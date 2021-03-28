@@ -152,9 +152,9 @@ It's important to note that if you force the endianness that would be used by th
 
 There is three ways to output a class/struct as completely raw data. This could be done for speed or specific formats. Note that endianness is totally ignored for raw data, and things like STL containers and pointers will just get pushed through with no conversion and nearly certainly cause errors when reloaded.
 
-**expbin**
+**expraw in place**
 
-Used *at the point of reading or writing* `expbin` can explicitly output the raw data of information without interfering with the type system. It uses references, no copies of data are made.
+Used *at the point of reading or writing* `expraw` can explicitly handle the raw data of information without interfering with the type system. It uses references, no copies of data are made.
 
 ```cpp
 struct rawdata {
@@ -166,18 +166,18 @@ struct thing {
     int a, b, c;
 
     void binaryize(bj::obinaryizer &out) const {
-        out(bj::expbin(data), a, b, c);
+        out(bj::expraw(data), a, b, c);
     }
 
     void debinaryize(bj::ibinaryizer &in) {
-        in(bj::expbin(data), a, b, c);
+        in(bj::expraw(data), a, b, c);
     }
 };
 ```
 
-**binwrap**
+**expraw wrapper**
 
-Items can be wrapped by `binwrap` to make them explicitly output as raw data. Can be used to store items in containers with no overhead. Dereferencing `*` and `->` operators are overloaded, and the internal `item` is exposed for aggregate construction and access.
+Items can be wrapped by `expraw` to make them explicitly output as raw data. Can be used to store items in containers with no overhead. Dereferencing `*` and `->` operators are overloaded, and the internal `item` is exposed for aggregate construction and access.
 
 ```cpp
 struct rawdata {
@@ -185,7 +185,7 @@ struct rawdata {
 };
 
 struct thing {
-    bj::binwrap<rawdata> data;
+    bj::expraw<rawdata> data;
     int a, b, c;
 
     void binaryize(bj::obinaryizer &out) const {
