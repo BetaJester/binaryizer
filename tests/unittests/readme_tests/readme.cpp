@@ -132,7 +132,7 @@ namespace readme_binwrap {
     };
 
     struct thing {
-        bj::binwrap<rawdata> data;
+        bj::expbin<rawdata> data;
         int a, b, c;
 
         void binaryize(bj::obinaryizer &out) const {

@@ -35,10 +35,10 @@ namespace bj {
         virtual void getraw(std::byte *const data, const std::size_t size) = 0;
 
 
-        template<typename T> requires is_expbin_v<T>
-        void get(T &&data) {
-            gettem(*data);
-        }
+        //template<typename T> requires is_expbin_v<T>
+        //void get(T &&data) {
+        //    gettem(*data);
+        //}
 
         template<explicity_raw_in T>
         void get(T &data) {

@@ -54,8 +54,8 @@ TEST_CASE("binwrap does it's stuff", "[overloads,binwrap]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    const bj::binwrap<nobin> nope1{ 19, true, 2.4f };
-    bj::binwrap<nobin> nope2;
+    const bj::expbin<nobin> nope1{ 19, true, 2.4f };
+    bj::expbin<nobin> nope2;
 
     REQUIRE(*nope1 != *nope2);
 
@@ -72,7 +72,7 @@ TEST_CASE("binwrap std::array does it's stuff", "[overloads,binwrap,array]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    using bw = bj::binwrap<nobin>;
+    using bw = bj::expbin<nobin>;
 
     std::array<bw, 2> nope1{ bw{19, true, 2.4f}, bw{23, false, 6.9f} };
     std::array<bw, 2> nope2;
@@ -97,7 +97,7 @@ TEST_CASE("binwrap carray does it's stuff", "[overloads,binwrap,carray]") {
     auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
-    using bw = bj::binwrap<nobin>;
+    using bw = bj::expbin<nobin>;
 
     // Should NOT work.
     // nobin nope3[3];
