@@ -5,6 +5,7 @@
 #pragma once
 
 #include <type_traits>
+#include <cstddef>
 #include "settings.hpp"
 
 namespace bj {
@@ -49,5 +50,10 @@ namespace bj {
     template<typename T> concept explicity_raw_in = arithmetic_native_in<T> || explicitly_raw_v<T>;
     template<typename T> concept explicity_raw_out = arithmetic_native_out<T> || explicitly_raw_v<T>;
 
+    // For buffered.
+    template<typename T>
+    concept bufferable =
+        requires(T t, const std::byte * b, std::size_t s) { t.putraw(b, s); } ||
+        requires(T t, std::byte * b, std::size_t s) { t.getraw(b, s); };
 
 } // namespace bj.
