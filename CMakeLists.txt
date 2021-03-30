@@ -56,6 +56,7 @@ target_sources(binaryizer INTERFACE
 	"include/bj/binaryizer/stl/valarray.hpp"
 	"include/bj/binaryizer/stl/vector.hpp"
 	"include/bj/binaryizer/traits_n_concepts.hpp"
+	"include/bj/binaryizer/parse_aggregate.hpp"
 	"include/bj/binaryizer/stackstack.hpp"
 )
 pwropt_target_compile_options(binaryizer INTERFACE pwr_lefticus)
