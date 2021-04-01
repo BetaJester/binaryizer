@@ -66,7 +66,7 @@ namespace bj {
                     }
 
                     // TODO: Calculate largest actually needed for type.
-                    stackstack<std::uint8_t, 10> buffer;
+                    stackstack<std::uint8_t, 11> buffer;
 
                     // Edge case for absolute max (or would it be min :P) negative number
                     // and the highest bit size available. Replacing the lost bit.
@@ -98,7 +98,7 @@ namespace bj {
                 template<typename Archive>
                 void debinaryize(Archive &in) {
 
-                    stackstack<std::uint8_t, 10> buffer;
+                    stackstack<std::uint8_t, 11> buffer;
 
                     for (std::uint8_t c{}; true;) {
                         in(c);

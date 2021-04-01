@@ -29,7 +29,6 @@ namespace bj {
     public:
 
         virtual ~obinaryizer() = default;
-
         virtual void putraw(const std::byte *const data, const std::size_t size) = 0;
 
         template<explicity_raw_out T>

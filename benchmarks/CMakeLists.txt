@@ -24,7 +24,8 @@ FetchContent_MakeAvailable(fmt pwropt benchmark)
 
 add_executable(binaryizer_benchmarks
 	"main.cpp"
-)
+	"buffered.cpp"
+	"io.hpp")
 pwropt_target_compile_options(binaryizer_benchmarks PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_benchmarks PRIVATE)
 target_link_libraries(binaryizer_benchmarks PRIVATE bj::binaryizer fmt::fmt benchmark::benchmark benchmark::benchmark_main)

@@ -6,9 +6,9 @@
 
 #include <sstream>
 #include <catch2/catch.hpp>
-#include <bj/binaryizer/iostream_binaryizer.hpp>
 #include <bj/binaryizer/midiint.hpp>
 #include <bj/binaryizer/expraw.hpp>
+#include "../test_iobin.hpp"
 
 namespace readme_internal {
     struct thing {
@@ -266,7 +266,7 @@ TEST_CASE("readme internal methods", "[readme,internal]") {
     readme_internal::thing thing1{ .a = 1, .b = 3, .c = 5 };
     readme_internal::thing thing2{ .a = 2, .b = 4, .c = 6 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -281,7 +281,7 @@ TEST_CASE("readme external methods", "[readme,external]") {
     readme_external::thing thing1{ .a = 1, .b = 3, .c = 5 };
     readme_external::thing thing2{ .a = 2, .b = 4, .c = 6 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -296,7 +296,7 @@ TEST_CASE("readme versioning methods", "[readme,internal,versioning]") {
     readme_versioning::thing thing1{ .a = 1, .b = 3, .c = 5, .d = 7 };
     readme_versioning::thing thing2{ .a = 2, .b = 4, .c = 6, .d = 8 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -310,7 +310,7 @@ TEST_CASE("readme versioning correctness", "[readme,internal,versioning]") {
 
     readme_versioning::thing thing1{ .a = 1, .b = 3, .c = 5, .d = 7 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -330,7 +330,7 @@ TEST_CASE("readme constructing methods", "[readme,constructing]") {
     // Same internal structure.
     readme_internal::thing thing1{ .a = 1, .b = 3, .c = 5 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -348,7 +348,7 @@ TEST_CASE("readme expbin methods", "[readme,expraw]") {
     readme_expraw::thing thing1{ .data{.x = 7, .y = 8, .z = 9}, .a = 1, .b = 3, .c = 5 };
     readme_expraw::thing thing2{ .data{.x = 0, .y = 10, .z = 11}, .a = 2, .b = 4, .c = 6 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -363,7 +363,7 @@ TEST_CASE("readme binwrap methods", "[readme,expraw,wrap]") {
     readme_expraw_wrap::thing thing1{ .data = { 7, 8, 9},  .a = 1, .b = 3, .c = 5 };
     readme_expraw_wrap::thing thing2;
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -378,7 +378,7 @@ TEST_CASE("readme explicitly_raw methods", "[readme,explicitly_raw]") {
     readme_explicitly_raw::thing thing1{ .data{.x = 7, .y = 8, .z = 9}, .a = 1, .b = 3, .c = 5 };
     readme_explicitly_raw::thing thing2{ .data{.x = 0, .y = 10, .z = 11}, .a = 2, .b = 4, .c = 6 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -393,7 +393,7 @@ TEST_CASE("readme midiint basic", "[readme,midiint,basic]") {
     readme_midiint_basic::thing thing1{ .a = 1, .b = 3, .c = 5 };
     readme_midiint_basic::thing thing2{ .a = 2, .b = 4, .c = 6 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -408,7 +408,7 @@ TEST_CASE("readme midiint wrapped", "[readme,midiint,wrap]") {
     readme_midiint_wrap::thing thing1{ .a = 1, .b = 3, .c = 5 };
     readme_midiint_wrap::thing thing2{ .a = 2, .b = 4, .c = 6 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
@@ -423,7 +423,7 @@ TEST_CASE("readme midiint explicit", "[readme,midiint,explicit]") {
     readme_midiint_explicit::thing thing1{ .a = 1, .b = 3, .c = 5, .d = 7 };
     readme_midiint_explicit::thing thing2{ .a = 2, .b = 4, .c = 6, .d = 8 };
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     bj::ibinaryizer &ibin = iobin;
     bj::obinaryizer &obin = iobin;
 
