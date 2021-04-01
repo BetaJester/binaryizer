@@ -14,6 +14,12 @@ namespace bj {
     class obinaryizer;
     class iobinaryizer;
 
+    enum class seekdir {
+        begin,
+        end,
+        current,
+    };
+
     // How the crap isn't this supplied?
     template<typename T> concept boolean = std::is_same_v<T, bool>;
     template<typename T> concept arithmetic = std::is_arithmetic_v<T> && !boolean<T>;
@@ -51,9 +57,9 @@ namespace bj {
     template<typename T> concept explicity_raw_out = arithmetic_native_out<T> || explicitly_raw_v<T>;
 
     // For buffered.
-    template<typename T>
-    concept bufferable =
-        requires(T t, const std::byte * b, std::size_t s) { t.putraw(b, s); } ||
-        requires(T t, std::byte * b, std::size_t s) { t.getraw(b, s); };
+    template<typename T> concept ibufferable = requires(T t, std::byte * b, std::size_t s) { t.getraw(b, s); };
+    template<typename T> concept obufferable = requires(T t, const std::byte * b, std::size_t s) { t.putraw(b, s); };
+    //template<typename T> concept bufferable = ibufferable<T> || obufferable<T>;
+    //template<typename T> concept iobufferable = ibufferable<T> && obufferable<T>;
 
 } // namespace bj.

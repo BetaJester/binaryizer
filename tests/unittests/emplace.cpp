@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <catch2/catch.hpp>
-#include <bj/binaryizer/iostream_binaryizer.hpp>
+#include "test_iobin.hpp"
 
 struct constructy {
 
@@ -34,7 +34,7 @@ void putinvec(bj::ibinaryizer &in, std::vector<T> &t) {
 
 TEST_CASE("construct with ibinaryizer", "[emplace]") {
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
     bj::ibinaryizer &ibin = iobin;
@@ -49,7 +49,8 @@ TEST_CASE("construct with ibinaryizer", "[emplace]") {
 }
 
 TEST_CASE("emplace with correct overload function", "[emplace,overload]") {
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    
+    auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
     bj::ibinaryizer &ibin = iobin;

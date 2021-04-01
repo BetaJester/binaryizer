@@ -32,7 +32,7 @@ namespace bj {
     public:
 
         virtual ~ibinaryizer() = default;
-        virtual void getraw(std::byte *const data, const std::size_t size) = 0;
+        virtual std::ptrdiff_t getraw(std::byte *const data, const std::size_t size) = 0;
 
         template<explicity_raw_in T>
         void get(T &data) {

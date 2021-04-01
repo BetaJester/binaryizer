@@ -5,8 +5,17 @@
 #pragma once
 
 #include <sstream>
-#include <bj/binaryizer/iostream_binaryizer.hpp>
+#include <bj/binaryizer/io/fstream_binaryizer.hpp>
+#include <bj/binaryizer/io/stringstream_binaryizer.hpp>
+
+inline auto test_ibin() {
+    return bj::ifstream_binaryizer{"unittests.bin"};
+}
+
+inline auto test_obin() {
+    return bj::ofstream_binaryizer{"unittests.bin"};
+}
 
 inline auto test_iobin() {
-    return bj::iostream_binaryizer<std::stringstream>(std::ios::binary | std::ios::in | std::ios::out);
+    return bj::stringstream_binaryizer{};
 }

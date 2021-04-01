@@ -5,13 +5,13 @@
 #include <sstream>
 
 #include <catch2/catch.hpp>
-#include <bj/binaryizer/iostream_binaryizer.hpp>
 #include "county.hpp"
+#include "test_iobin.hpp"
 
 
 TEST_CASE("std::stringstream de/binaryize of 'county'", "[stream,county]") {
 
-    bj::iostream_binaryizer<std::stringstream> iobin(std::ios::binary | std::ios::in | std::ios::out);
+    auto iobin = test_iobin();
     REQUIRE(iobin.good());
 
     bj::ibinaryizer &ibin = iobin;
@@ -25,7 +25,7 @@ TEST_CASE("std::stringstream de/binaryize of 'county'", "[stream,county]") {
     REQUIRE(c1.binarized == 1);
     REQUIRE(c1.debinarized == 0);
 
-    iobin.rewind();
+    //iobin.rewind();
 
     ibin(c2);
     REQUIRE(c2.binarized == 0);
