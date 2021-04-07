@@ -6,7 +6,7 @@
 
 #include "../binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename Stream>
     class stream_base {
@@ -65,4 +65,4 @@ namespace bj {
 
     };
 
-} // namespace bj.
+} // namespace bj::inline v1.

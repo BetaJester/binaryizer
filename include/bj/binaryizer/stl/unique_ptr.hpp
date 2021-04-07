@@ -7,7 +7,7 @@
 #include <memory>
 #include "../binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T, typename Deleter>
     inline void binaryize(obinaryizer &out, const std::unique_ptr<T, Deleter> &data) {
@@ -36,4 +36,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

@@ -8,7 +8,7 @@
 #include "../binaryizer.hpp"
 #include "size.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename Key, typename Compare, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::unordered_multiset<Key, Compare, Alloc> &data) {
@@ -35,4 +35,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

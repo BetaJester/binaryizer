@@ -7,7 +7,7 @@
 #include <utility>
 #include "../binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T1, typename T2>
     inline void binaryize(obinaryizer &out, const std::pair<T1, T2> &data) {
@@ -19,4 +19,4 @@ namespace bj {
         in(data.first, data.second);
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

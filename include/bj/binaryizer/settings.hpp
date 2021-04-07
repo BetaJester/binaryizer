@@ -6,7 +6,7 @@
 
 #include <bit>
 
-namespace bj {
+namespace bj::inline v1{
 
     // Arithmetic type endian fixes.
 
@@ -46,4 +46,4 @@ namespace bj {
     constexpr bool containers_midiint_size = false;
 #endif
 
-} // namespace bj.
+} // namespace bj::inline v1.

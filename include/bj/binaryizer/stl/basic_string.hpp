@@ -8,7 +8,7 @@
 #include "../binaryizer.hpp"
 #include "size.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<explicity_raw_out T, typename Traits, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::basic_string<T, Traits, Alloc> &data) {
@@ -23,4 +23,4 @@ namespace bj {
         in.getraw(reinterpret_cast<std::byte *>(data.data()), size * sizeof(T));
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

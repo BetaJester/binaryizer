@@ -7,7 +7,7 @@
 #include <tuple>
 #include <type_traits>
 
-namespace bj {
+namespace bj::inline v1{
 
     // Largely courtesy of https://codereview.stackexchange.com/questions/142804/get-n-th-data-member-of-a-struct
     namespace impl {
@@ -101,4 +101,4 @@ namespace bj {
     template<typename T>
     parsed(T &&)->parsed<const T>;
 
-} // namespace bj.
+} // namespace bj::inline v1.

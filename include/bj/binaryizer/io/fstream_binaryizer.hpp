@@ -7,7 +7,7 @@
 #include <fstream>
 #include "iostream_binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1 {
 
     struct [[nodiscard]] ifstream_binaryizer : istream_binaryizer<std::ifstream> {
         ifstream_binaryizer(const std::string_view path, const std::ios::openmode extra = static_cast<std::ios::openmode>(0))
@@ -19,4 +19,4 @@ namespace bj {
             : ostream_binaryizer<std::ofstream>{ std::ios::binary | extra, path.data() } {}
     };
 
-} // namespace bj,
+} // namespace bj::inline v1.

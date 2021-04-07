@@ -11,7 +11,7 @@
 #include "traits_n_concepts.hpp"
 #include "endian.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     // Class for input.
 
@@ -101,4 +101,4 @@ namespace bj {
 
     };
 
-} // namespace bj.
+} // namespace bj::inline v1.

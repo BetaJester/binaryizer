@@ -8,7 +8,7 @@
 #include <cstddef>
 #include "settings.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     class ibinaryizer;
     class obinaryizer;
@@ -62,4 +62,4 @@ namespace bj {
     //template<typename T> concept bufferable = ibufferable<T> || obufferable<T>;
     //template<typename T> concept iobufferable = ibufferable<T> && obufferable<T>;
 
-} // namespace bj.
+} // namespace bj::inline v1.

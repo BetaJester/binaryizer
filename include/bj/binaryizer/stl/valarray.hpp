@@ -8,7 +8,7 @@
 #include "../binaryizer.hpp"
 #include "size.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T>
     inline void binaryize(obinaryizer &out, const std::valarray<T> &data) {
@@ -23,4 +23,4 @@ namespace bj {
         in.get(std::begin(data), std::end(data));
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

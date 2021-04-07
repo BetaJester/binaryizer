@@ -7,7 +7,7 @@
 #include <sstream>
 #include "../binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     class [[nodiscard]] stringstream_binaryizer final : public iobinaryizer{
 
@@ -32,4 +32,4 @@ namespace bj {
 
     };
 
-} // namespace bj.
+} // namespace bj::inline v1.

@@ -7,7 +7,7 @@
 #include "ibinaryizer.hpp"
 #include "obinaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     // Helper class for easy child classes.
     class [[nodiscard]] iobinaryizer : public ibinaryizer, public obinaryizer {
@@ -29,4 +29,4 @@ namespace bj {
     
     };
 
-} // namespace bj.
+} // namespace bj::inline v1.

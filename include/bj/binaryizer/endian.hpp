@@ -10,7 +10,7 @@
 #include "settings.hpp"
 #include "bit_cast.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T>
     requires std::is_arithmetic_v<T> // Avoid our concepts header.
@@ -53,4 +53,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.
