@@ -38,6 +38,9 @@ add_executable(binaryizer_tests
 	"main.cpp"
 	"midiint.cpp"
 	"nobin.hpp"
+	"parse_aggregate.cpp"
+	"parse_aggregate.cpp"
+	"rawable.hpp"
 	"readme_tests/readme.cpp"
 	"stackstack.cpp"
 	"stl/array.cpp"
@@ -53,7 +56,7 @@ add_executable(binaryizer_tests
 	"stl/queue.cpp"
 	"stl/set.cpp"
 	"stl/stack.cpp"
-	"parse_aggregate.cpp"
+	"stl/tuple.cpp"
 	"stl/unique_ptr.cpp"
 	"stl/unordered_map.cpp"
 	"stl/unordered_multimap.cpp"
@@ -63,7 +66,7 @@ add_executable(binaryizer_tests
 	"stl/vector.cpp"
 	"stream.cpp"
 	"test_iobin.hpp"
-	 "rawable.hpp"  "parse_aggregate.cpp")
+	 )
 pwropt_target_compile_options(binaryizer_tests PRIVATE pwr_werror pwr_lefticus)
 pwropt_target_cxx_latest(binaryizer_tests PRIVATE)
 target_link_libraries(binaryizer_tests PRIVATE Catch2::Catch2 bj::binaryizer fmt::fmt)
