@@ -7,7 +7,7 @@
 #include <tuple>
 #include "../binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     struct tupleoverload {
 
@@ -45,4 +45,4 @@ namespace bj {
         std::apply([&](Types &...items) { tol(in, items...); }, data);
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

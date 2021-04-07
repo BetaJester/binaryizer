@@ -8,7 +8,7 @@
 #include "../binaryizer.hpp"
 #include "size.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::forward_list<T, Alloc> &data) {
@@ -34,4 +34,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

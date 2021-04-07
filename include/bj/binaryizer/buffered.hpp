@@ -197,4 +197,4 @@ namespace bj::inline v1{
     //
     //};
 
-} // namespace bj.
+} // namespace bj::inline v1.

@@ -7,7 +7,7 @@
 #include <compare>
 #include <cstdint>
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T>
     class [[nodiscard]] expraw final {
@@ -49,4 +49,4 @@ namespace bj {
     template<typename T>
     expraw(T &&)->expraw<const T>;
 
-} // namespace bj.
+} // namespace bj::inline v1.

@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <cstring>
 
-namespace bj::impl {
+namespace bj::inline v1::impl {
 
     // courtesy of cppreference until vendors catch up.
     template <class To, class From>
@@ -29,4 +29,4 @@ namespace bj::impl {
         return dst;
     }
 
-} // namespace bj::impl.
+} // namespace bj::::inline v1impl.

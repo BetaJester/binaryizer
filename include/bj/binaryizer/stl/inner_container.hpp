@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace bj {
+namespace bj::inline v1{
 
     // Protected access.
     // Underlying container in wrappers is always called "c".
@@ -18,4 +18,4 @@ namespace bj {
         using Parent::c;
     };
 
-} // namespace bj.
+} // namespace bj::inline v1.

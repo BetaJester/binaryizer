@@ -9,7 +9,7 @@
 #include "stackstack.hpp"
 #include "bit_cast.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     namespace impl {
 
@@ -200,4 +200,4 @@ namespace bj {
     requires (std::is_integral_v<std::decay_t<T>> && sizeof(std::decay_t<T>) > 1)
     midiint(T&&)->midiint<const T>;
 
-} // namespace bj.
+} // namespace bj::inline v1.

@@ -8,7 +8,7 @@
 #include "../binaryizer.hpp"
 #include "size.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<explicity_raw_out T, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::vector<T, Alloc> &data) {
@@ -45,4 +45,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

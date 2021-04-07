@@ -7,7 +7,7 @@
 #include <array>
 #include <optional>
 
-namespace bj {
+namespace bj::inline v1{
 
     template<class T, std::size_t N>
     class [[nodiscard]] stackstack final {
@@ -59,4 +59,4 @@ namespace bj {
 
     };
 
-} // namespace sgg::utility.
+} // namespace bj::inline v1.

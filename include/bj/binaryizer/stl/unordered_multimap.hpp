@@ -9,7 +9,7 @@
 #include "size.hpp"
 #include "pair.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename Key, typename T, typename Compare, typename Alloc>
     inline void binaryize(obinaryizer &out, const std::unordered_multimap<Key, T, Compare, Alloc> &data) {
@@ -37,4 +37,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

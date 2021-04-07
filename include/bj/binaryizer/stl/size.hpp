@@ -8,7 +8,7 @@
 #include "../binaryizer.hpp"
 #include "../midiint.hpp"
 
-namespace bj::impl {
+namespace bj::inline v1::impl {
 
     inline void put_size(bj::obinaryizer &out, const std::size_t s) {
         if constexpr (!bj::containers_midiint_size) {

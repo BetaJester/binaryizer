@@ -9,7 +9,7 @@
 #include "inner_container.hpp"
 #include "deque.hpp" // Default container.
 
-namespace bj {
+namespace bj::inline v1{
 
     template<typename T, typename Container>
     inline void binaryize(obinaryizer &out, const std::queue<T, Container> &data) {
@@ -29,4 +29,4 @@ namespace bj {
         in(c);
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

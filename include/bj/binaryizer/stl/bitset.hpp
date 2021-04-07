@@ -9,7 +9,7 @@
 #include "../binaryizer.hpp"
 #include "../midiint.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<std::size_t N>
     inline void debinaryize(ibinaryizer &in, std::bitset<N> &data) {
@@ -37,4 +37,4 @@ namespace bj {
         }
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.

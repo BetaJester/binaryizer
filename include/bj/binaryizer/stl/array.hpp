@@ -7,7 +7,7 @@
 #include <array>
 #include "../binaryizer.hpp"
 
-namespace bj {
+namespace bj::inline v1{
 
     template<explicity_raw_out T, std::size_t N>
     inline void binaryize(obinaryizer &out, const std::array<T, N> &data) {
@@ -29,4 +29,4 @@ namespace bj {
         in.get(data.begin(), data.end());
     }
 
-} // namespace bj.
+} // namespace bj::inline v1.
